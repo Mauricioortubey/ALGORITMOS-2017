@@ -1,0 +1,30 @@
+#include "stdafx.h"
+#include <iostream>
+#include "stdlib.h"
+#include "conio.h"
+#include "math.h"
+
+using namespace std;
+
+void main()
+{
+	int S = 0;
+	int N;
+	int i;
+	do{
+	   cout<<"Ingrese un valor limite para N:";
+	   cout<<"\n\n";
+	   cin>>N;
+	}while(N<=0);
+
+	for (i = 2; i<=N; i=i+2)
+	{
+		S = S + i; 
+	}
+	cout<<"\n\n";
+	cout<<"LA SUMATORIA ES:" <<S;
+
+	cout<<"\n\n";
+	system("pause");
+}
+
