@@ -45,6 +45,6 @@ cin>>*E>>*F;
 void Solucion1(float *A, float *B, float *C, float *D, float *E, float *F, float *X, float *Y)
 { *Y = ((*A * *F) - (*D * *C)) / ((*A * *E) - (*D * *B));
   *X = (*C - *B * *Y)/ *A;
-  cout<<"\n El valor de X es igual a %f. ", *X;
-  cout<<"\n El valor de Y es igual a %f. ", *Y;
+  cout<<"\n El valor de X es igual a "<< *X;
+  cout<<"\n El valor de Y es igual a "<< *Y;
 }
