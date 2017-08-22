@@ -1,55 +1,49 @@
-// Ejercicio 9.cpp: define el punto de entrada de la aplicación de consola.
+// E9.cpp: define el punto de entrada de la aplicación de consola.
 //
+
 #include "stdafx.h"
 #include <iostream>
 #include "conio.h"
 #include "math.h"
 
 using namespace std;
-int Leer();
-void Convertir(int *D1, int *R1, int *N, int *Deci,int *D, int *Au, int *SF);
-int Condicion();
+void transformar(int *c, int *Bin);
 
 void main()
-{	int Deci, Bin, D, R, N, S, D1, R1, Au, SF;
-	cout<<"\n Recuerde que el numero en binario solo consta de 0 y 1";
-	Bin = Leer();
-	N = Condicion();
-	Au = 1;
-	D = Bin % 10;
-	R = Bin / 10;
-	Deci = D * 1;
-	S = Deci;
-	Convertir(&D1,&R1,&N,&Deci,&D,&Au,&SF);
-	getch();
-}
-
-int Leer()
-{	int Bin;
-	cout<<"\n Ingrese Valor en binario: ";
-	cin>>Bin;
-	return(Bin);
-}
-
-void Convertir(int *D1, int *R1, int *N, int *Deci, int *D, int *Au,int *SF)
 {
- *SF = *Deci;
- *Au = 1;
- for(int i = 1; i <= *N; i ++)
- {*Au = *Au * 2;
-  *D1 = *D % 10;
-  *R1 = *D / 10;
-  *Deci = *D * *Au;
-  *SF = *SF + *Deci;
-  *D = *D1;
- }
- cout<<"\n El valor en decimal es "<<*SF;
+	int Bin,Bin2,c=0;
+	cout<< "Introduce un numero binario (o-1): ";
+	cin>> Bin;
+	Bin2=Bin;
+
+	while (Bin2>0)
+	{
+		Bin2 = Bin2/10;
+		c++;
+	}
+
+transformar(&c,&Bin);
+
+_getch();
+
 }
 
-int Condicion()
-{int N; 
- cout<< "Cuantos Valores tiene su binario: ";
- cin>> N;
- return(N);
+
+void transformar(int *c, int *Bin)
+{
+	int S=0,k=0,D=*Bin;
+	while (k<=*c)
+	{
+		int Cifra = D%10;
+		S = S + (Cifra*pow(2,k));
+		D=D/10;
+		k++;
+	}
+
+	cout<<"El numero Binario "<<*Bin<<" Es igual "<<S;
+
 }
+
+
+
 
