@@ -9,16 +9,16 @@
 
 using namespace std;
 
-void Leer1(float *A, float* B, float *C);
-void Leer2(float *D, float *E, float *F);
-void Solucion1(float *A, float *B, float *C, float *D, float *E, float *F, float *X, float *Y);
+void Leer1(float A, float B, float C);
+void Leer2(float D, float E, float F);
+void Solucion1(float A, float B, float C, float D, float E, float F, float *X, float *Y);
 
 
 void main()
 {float A,B,C,D,E,F,X,Y;
-Leer1(&A,&B,&C);
-Leer2(&D,&E,&F);
-Solucion1(&A,&B,&C,&D,&E,&F,&X,&Y);
+Leer1(A,B,C);
+Leer2(D,E,F);
+Solucion1(A,B,C,D,E,F,&X,&Y);
 _getch();
 }
 
@@ -26,25 +26,29 @@ _getch();
 void Leer1(float *A, float* B, float *C)
 { do
 	{cout<<"\n Ingrese el valor de A!= 0: ";
-	 cin>> *A;
-	}while (*A == 0);
-cout<<"\n Ingrese el valor de B y C: ";
-cin>> *B >> *C;
+	 cin>> A;
+	}while (A == 0);
+cout<<"\n Ingrese el valor de B: ";
+cin>> B;
+cout<<"\n Ingrese el valor de C: ";
+cin>> C;
 }
 
 
-void Leer2(float *D, float *E, float *F)
+void Leer2(float D, float E, float F)
 { do
 	{cout<<"\n Ingrese el valor de D!= 0: ";
-	 cin>> *D;
-	}while (*D == 0);
-cout<<"\n Ingrese el valor de E y F: ";
-cin>>*E>>*F;
+	 cin>> D;
+	}while (D == 0);
+cout<<"\n Ingrese el valor de E: ";
+cin>> E;
+cout<<"\n Ingrese el valor de F: ";
+cin>> F;
 }
 
-void Solucion1(float *A, float *B, float *C, float *D, float *E, float *F, float *X, float *Y)
-{ *Y = ((*A * *F) - (*D * *C)) / ((*A * *E) - (*D * *B));
-  *X = (*C - *B * *Y)/ *A;
+void Solucion1(float A, float B, float C, float D, float E, float F, float *, float *Y)
+{ *Y = ((A * F) - (D * C)) / ((A * E) - (D * B));
+  *X = (C - B * *Y)/ A;
   cout<<"\n El valor de X es igual a "<< *X;
   cout<<"\n El valor de Y es igual a "<< *Y;
 }
