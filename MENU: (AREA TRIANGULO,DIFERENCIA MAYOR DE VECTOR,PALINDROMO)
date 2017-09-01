@@ -1,0 +1,153 @@
+// LA// Ejercicio '29-08-2017'.cpp: define el punto de entrada de la aplicación de consola.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string>
+#include "math.h"
+#include "stdlib.h"
+#define MAX 100
+
+using namespace std;
+float Calculos(float A,float B,float C);
+void LeerVector(float V[],int N);
+void ConsecutivoMayor (float V[],int N);
+void palindromo(string var2);
+
+void main()
+{
+	int op,N;
+	float A,B,C,Area;
+	string palabra;
+	do{
+	cout << ".................................MENU.................................."<<endl;
+	cout << "1.- Funcion para Area de un triángulo en funcion de lados.............."<<endl;
+	cout << "2.- Vectores(Encontrar la mayor diferencia de sus consecutivos)........"<<endl;
+	cout << "3.- Palindromo........................................................."<<endl;
+	cout << "0.- Salir.............................................................."<<endl;
+	cin >>op;
+		switch (op)
+		{
+			case 1:
+				{
+					cout << "Ingrese el lado A: "<<endl;
+					cin >> A;
+					cout << "Ingrese el lado B: "<<endl;
+					cin >> B;
+					cout << "Ingrese el lado C: "<<endl;
+					cin >> C;
+				
+					Area = Calculos(A,B,C);
+
+				}	
+				cout << "El Area del Triángulo es : "<<Area<<endl;
+				break;
+				
+
+			case 2:
+				{float Vector[MAX]={'/0'};
+				
+				do{
+					cout << "Ingrese el número de casillas que desea llenar"<<endl;
+					cin>> N;
+				}while(N<=0);
+
+				LeerVector(Vector,N);
+				ConsecutivoMayor (Vector,N);
+				break;
+				
+				}
+			case 3:
+				getline(cin,palabra);
+				palindromo(palabra);
+				break;
+				
+			
+			case 0:
+				cout << "SALIR";				
+				break;
+				
+
+			default:
+				cout<<"ERROR";
+				break;
+				
+		}
+	}while (op!=0);
+
+
+	_getch();
+	
+}
+
+
+float Calculos(float A,float B,float C)
+{
+	float A2 = pow(A,2);
+	float B2 = pow(B,2);
+	float C2 = pow(B,2);
+	float A4 = pow(A2,2);
+	float B4 = pow(B2,2);
+	float C4 = pow(C2,2);
+	float Val1 = pow(A2+B2+C2,2);
+	float Val2 = A4+B4+C4;
+
+	return ((0.25)*sqrt(Val1-2*Val2));
+}
+
+void LeerVector(float V[],int N)
+{
+	cout<<"Llene su vector con números reales mayores a 0."<<endl;
+	
+	for (int i=0;i<N;i++)
+	{
+		do{
+		cout<<"V["<<i<<"]="; 
+		cin>> V[i];
+		}while (V[i]<0);
+	}
+
+}
+
+void ConsecutivoMayor (float V[],int N)
+{
+	float RMax,R;
+    RMax=0;
+  for (int j=0;j<N-1;j++)
+   {  
+		if(V[j]<=V[j+1])
+		{	
+			R=V[j+1]-V[j];
+		}		
+		else
+		{
+			R=V[j]-V[j+1];
+		}
+		
+		if(R>RMax)
+		{
+			  RMax= R;
+		}
+	}
+  cout << "la diferencia mayor entre los consecutivos es: " <<RMax<<endl;
+}
+
+void palindromo(string var2)
+{  int L,Aux;
+    string palabra;
+        cout<<"Ingrese una palabra: "<<endl;
+        getline(cin,palabra);
+        var2=palabra;
+		L=palabra.length();
+		for(int j=0;j<L/2;j++)
+        {Aux=palabra[j];
+            palabra[j]=palabra[L-1-j];
+            palabra[L-1-j]=Aux;
+        }
+        cout<<"El nombre invertido es: "<<palabra<<endl;
+        if(var2.compare(palabra)==0)
+            cout<<"Es un palindromo";
+        else
+            cout<<"No es un palindromo";
+}
