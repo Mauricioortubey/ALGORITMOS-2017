@@ -1,0 +1,67 @@
+// Ordenar Nombres.cpp: define el punto de entrada de la aplicación de consola.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string>
+#define MAX 50
+
+using namespace std;
+
+void LeerNombres(string A[], int N);
+void ordenar(string A[],int N);
+void Mostrar(string A[],int N);
+
+void main()
+{
+	string NOMBRES[MAX];
+	int N;
+	do{
+		cout<<" Ingrese el numero de elementos:  ";
+		cin>> N;
+	}while(N<0);
+	LeerNombres(NOMBRES,N);
+	ordenar(NOMBRES,N);
+	cout<<""<<endl;
+	Mostrar(NOMBRES,N);
+
+	_getch();
+}
+
+void LeerNombres(string A[], int N)
+{
+	int i=0;
+	cin.ignore();
+	while(i<N){
+		cout<<" Ingrese Nombre["<<i<<"]= ";
+		getline(cin,A[i]);
+		i++;
+	}
+}
+
+void ordenar(string A[],int N)
+{
+	string AUX;
+	int i,j;
+	for(i=0;i<N-1;i++)
+	  for(j=i+1;j<N;j++)
+		if(A[i]>A[j])
+		{ AUX = A[j];
+			A[j] = A[i];
+			A[i]=AUX;
+		}
+}
+
+void Mostrar(string A[],int N)
+{
+	for (int i=0;i<N;i++)
+	{
+		cout<<"Nombre["<<i<<"]=";
+		cout<<A[i]<<endl;
+	}
+
+}
+
+
+
