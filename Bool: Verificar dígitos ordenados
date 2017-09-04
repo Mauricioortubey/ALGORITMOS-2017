@@ -1,0 +1,54 @@
+// Bool 1.cpp: define el punto de entrada de la aplicación de consola.
+//
+/*Realizar una funcion que reciba como parametro un numero natural y verifique si este numero tiene sus digitos
+ordenados  de forma ascendente de izquierda a derecha, si esta ordenado debe retornar true o false
+*/
+
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+using namespace std;
+
+bool verificacion(int n);
+
+void main()
+{
+	int nro;
+	cout <<" Introduce un numero para verificar si esta ordenado o no: "<<endl;
+	cin >> nro;
+	
+	if ( verificacion(nro)==true)
+	{
+		cout << "El numero esta ordenado!"<<endl;
+	}
+	else
+	{
+		cout << "El numero no esta Ordenado :'( "<<endl;
+	}
+
+	_getch();
+}
+
+bool verificacion(int n)
+{
+	int digitAct,digitAnt;
+	bool k=true;
+	digitAnt = n%10;
+	while (n>0)
+	{
+		digitAct = n%10;
+		if (digitAct <= digitAnt)
+		{
+			digitAnt = digitAct;
+		}
+		else
+		{
+			k=false;
+			n=0;
+		}
+		n=n/10;
+	}
+ 
+	return (k);
+}
+
