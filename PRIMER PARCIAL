@@ -99,7 +99,7 @@ void main()
 	do{
 	cout<<"Ingrese un valor para X "<<endl;
 	cin>>X;
-	}while(N<0);
+	}while(X<0);
 
 	SUMA = Sumatoria(N,X);
 	cout<<endl<<"LA sumatoria es igual a "<<SUMA<<endl;
