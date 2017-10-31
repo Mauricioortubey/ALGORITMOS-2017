@@ -1,0 +1,80 @@
+// Ordenar numeros en una matriz.cpp: define el punto de entrada de la aplicación de consola.
+//
+
+
+#include "stdafx.h"
+#include <iostream>
+#include "stdlib.h"
+#include "conio.h"
+#include <string>
+
+#define MAX 10
+
+using namespace std;
+//Struct::
+
+int Matriz_Numeros[MAX][MAX];
+int FIL,COL;
+
+//Prototipos de Funciones::
+void Llenar(int M[MAX][MAX],int F,int C);
+void Ordenar_Nombres(int M[MAX][MAX],int F, int C);
+void Mostrar(int M[MAX][MAX],int F, int C);
+
+// Main:: Principal
+void main()
+{
+	cout<<"\n Ingrese el numero de Filas: ";
+	cin >>FIL;
+	cout<<"\n Ingrese el numero de Columnas: ";
+	cin >>COL;
+	cout<<endl;
+
+	Llenar(Matriz_Numeros,FIL,COL);
+	cout<<"\n\n";
+	Ordenar_Nombres(Matriz_Numeros,FIL,COL);
+	Mostrar(Matriz_Numeros,FIL,COL);
+
+
+	_getch();
+}
+
+void Llenar(int M[MAX][MAX],int F,int C)
+{	
+	for(int i=1;i<=F;i++){
+		for(int j=1;j<=C;j++){
+			M[i][j]= rand() %9+1;
+			cout<<"\n nunmero en Casilla ["<<i<<"]["<<j<<"]: "<<M[i][j];
+		}
+	}
+}
+
+void Ordenar_Nombres(int M[MAX][MAX],int F, int C)
+{
+	int AUX;
+	for (int i=1;i<=F;i++){
+		for(int j=1;j<=C;j++){
+			for(int u=1;u<=F;u++){
+				for(int v=1;v<=C;v++){
+					if(M[i][j]<M[u][v]){
+						AUX = M[i][j];
+						M[i][j] = M[u][v];
+						M[u][v] = AUX;
+					}
+				}
+			}
+		}
+	}
+}
+
+void Mostrar(int M[MAX][MAX],int F, int C)
+{
+	for(int i=1;i<=F;i++){
+		for(int j=1;j<=C;j++){
+			cout<<endl<<"Numero en Casilla ["<<i<<"]["<<j<<"]: ";
+			cout<<M[i][j];
+		}
+	}
+}
+
+
