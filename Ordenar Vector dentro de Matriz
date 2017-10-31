@@ -1,0 +1,96 @@
+// Ordenar Vector dentro de Matriz.cpp: define el punto de entrada de la aplicación de consola.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string>
+#include "stdlib.h"
+
+#define MAX 10
+
+using namespace std;
+
+struct Vect_Mat{
+	int Vector[MAX];
+};
+
+
+void LLENAR(Vect_Mat M[MAX][MAX],int F,int C,int D);
+void Mostrar_matriz(Vect_Mat M[MAX][MAX],int F, int C, int D);
+void Ordenar(Vect_Mat M[MAX][MAX],int F,int C,int D);
+
+void main()
+{
+	Vect_Mat Matriz[MAX][MAX], NOPRIM[MAX][MAX];
+	int Fil,Col,Dim;
+
+	cout<<"Ingrese el numero de Filas: ";
+	cin >> Fil; cout<<"\n\n";
+	cout<<"Ingrese el numero de Columnas: "; 
+	cin >> Col; cout<<"\n\n";
+	cout<<"Ingrese la Dimension del Vector: ";
+	cin >>Dim; cout<<"\n\n";
+
+	LLENAR(Matriz,Fil,Col,Dim);
+	cout<<"Inicial: "<<endl;
+	Mostrar_matriz(Matriz,Fil,Col,Dim);
+	Ordenar(Matriz,Fil,Col,Dim);
+	cout<<"Final: "<<endl;
+	Mostrar_matriz(Matriz,Fil,Col,Dim);
+
+
+	_getch();
+}
+
+void LLENAR(Vect_Mat M[MAX][MAX],int F,int C,int D)
+{
+	for(int i=1;i<=F;i++){
+		for(int j=1;j<=C;j++){
+			cout<<" Llene la Casilla ["<<i<<"]["<<j<<"] :"<<endl;
+			for(int d=1;d<=D;d++){
+				M[i][j].Vector[d]=rand() %15+1;
+				cout<<"Casilla["<<d<<"]: "<<M[i][j].Vector[d];
+				cout<<endl;
+			}
+			cout<<"\n\n";
+		}
+	}
+}
+
+void Mostrar_matriz(Vect_Mat M[MAX][MAX],int F, int C, int D)
+{
+	int a=0,fin=1;
+	for(int i=1;i<=F;i++){
+		cout<<"| ";
+	  for(int j=1;j<=C;j++){
+		  for(int d=1;d<=D;d++){
+				cout<<" [";
+				cout<<M[i][j].Vector[d]<<"] ";
+		  }
+		  cout<<"\t";
+	  }
+	  cout<<" |"<<endl;
+	}
+}
+
+void Ordenar(Vect_Mat M[MAX][MAX],int F,int C,int D)
+{
+	int AUX=0;
+	for(int i=1;i<=F;i++){
+		for(int j=1;j<=C;j++){
+			for(int d=1;d<+D;d++){
+				for(int u=d+1;u<=D;u++){
+					if(M[i][j].Vector[u]<M[i][j].Vector[d]){
+						AUX = M[i][j].Vector[u];
+						M[i][j].Vector[u]=M[i][j].Vector[d];
+						M[i][j].Vector[d]=AUX;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
