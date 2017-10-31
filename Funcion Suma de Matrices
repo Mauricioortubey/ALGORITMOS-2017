@@ -1,0 +1,35 @@
+void Suma_de_Matrices(int M1[MAX][MAX], int M2[MAX][MAX], int SUMA[MAX][MAX], int *Filas, int *Columnas)
+{
+	cout<<"Nota: En la Suma de Matrices, ambas matrices tienen la misma dimension en filas y en columnas."<<endl;
+	cout<<"Por lo que las dimensiones que ingrese sera la misma tanto para la matriz #1 como para la matriz #2."<<endl;
+	cout<<endl;
+	Ingresar(Filas,Columnas);
+		system("cls");
+	
+	cout<<"Carga la Matriz #1: "<<endl;
+	Cargar_Matriz(M1,Filas,Columnas);
+		system("cls");
+	cout<<"\n";
+	Mostrar_matriz(M1,Filas,Columnas);
+	cout<<"\n";
+	cout<<"Carga la Matriz #2: "<<endl;
+	Cargar_Matriz(M2,Filas,Columnas);
+		system("cls");
+	cout<<"\n"<<endl;
+	Mostrar_matriz(M2,Filas,Columnas);
+	cout<<"\n";
+		system("cls");
+
+	for (int i=1; i<= *Filas; i++){
+		for(int j=1; j<= *Columnas; j++){
+			SUMA[i][j] = M1[i][j] + M2[i][j];
+		}
+	}
+
+	Mostrar_matriz(M1,Filas,Columnas);
+	cout<<"    +    ";
+	Mostrar_matriz(M2,Filas,Columnas);
+	cout<<endl;
+	cout<<"La matriz obtenida es: "<<endl;
+	Mostrar_matriz(SUMA,Filas,Columnas);
+}
