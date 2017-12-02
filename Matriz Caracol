@@ -1,0 +1,107 @@
+// Matriz en caracol.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string>
+
+#define fil  20
+#define col 20
+
+using namespace std;
+
+
+
+
+void cargar(int mat[fil][col],int n,int m);
+void matriz_caracol(int mat[fil][col],int n,int m);
+void mostrar(int mat[fil][col],int n,int m);
+
+void main()
+{int mat[fil][col];
+int n,m;
+
+   cout<<"Ingrese el tamaño de las filas:  "<<endl;
+   cin>>n;
+   cout<<"Ingrese el tamaño de las columnas:   "<<endl;
+   cin>>m;
+
+   cargar(mat,n,m);
+   matriz_caracol(mat,n,m);
+   mostrar(mat,n,m);
+
+   getch();
+
+}
+
+
+void cargar(int mat[fil][col],int n,int m)
+{
+   int i,j;
+
+   for(i=0;i<n;i++)
+     {
+	   for(j=0;j<m;j++)
+	      {
+			  cout<<" Ingrese los datos:   "<<endl;
+	          cin>>mat[i][j];
+	   
+	      }
+     }
+
+
+}
+void matriz_caracol(int mat[fil][col],int n,int m)
+{
+	int i, cont=0, c=1;
+	  while(cont< n/2)  
+	     {
+			 for(i=cont; i<n-cont;i++)
+			     {
+					 mat[cont][i]=c;
+					 c++;
+			     }
+			  for(i=cont+1;i<n-cont;i++)
+			    {  
+					mat[i][n-1-cont]=c;
+					c++;
+			    }
+			  for(n-2-cont;i>=cont;i--)
+			  {
+				  mat[n-1-cont][i]=c;
+				  c++;
+			  }
+			  for(i=n-2-cont;i>cont;i--)
+			  {
+				  mat[i][cont]=c;
+				  c++;
+			  }
+	  cont++;
+	     }
+	  if(n%2!=0)
+	  {
+	    mat[n/2][n/2]=n*m;
+	  }
+
+
+
+
+}
+void mostrar(int mat[fil][col],int n,int m)
+{
+ int i,j;
+  for(i=0;i<n;i++)
+  {
+	  for(j=0;j<m;j++)
+	    {
+
+			cout<<mat[i][j]<<"    ";
+	    }
+  cout<<"     ";
+  }
+	  
+
+
+
+}
