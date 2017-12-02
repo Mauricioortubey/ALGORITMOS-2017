@@ -1,0 +1,272 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+#include <string.h>
+//
+using namespace std;
+//
+struct regFecha{
+	int dia;
+	int mes;
+	int anho;
+	char fecha[10];
+};
+//
+struct regAmigos{
+	char nombre[30];
+	int edad;
+	regFecha regf;
+	char sexo;
+	char estado;
+};
+//
+regFecha IngresarFecha(){
+    regFecha regf;
+	bool k;
+    do{
+		cout<<endl;
+		cout<<"Dia: ";
+		cin>>regf.dia;
+		cout<<"Mes: ";
+		cin>>regf.mes;
+		cout<<"Anho: ";
+		cin>>regf.anho;
+		cout<<endl;
+		if(regf.mes>=1 && regf.mes<=12 ){
+			switch(regf.mes){
+			case  1 :
+            case  3 :
+            case  5 :
+            case  7 :
+            case  8 :
+            case 10 :
+            case 12 : if(regf.dia>=1 && regf.dia<=31 ){
+                          cout<<"FECHA CORRECTA";
+						  k=true;
+					  }else{
+						  cout<<"FECHA INCORRECTA";
+						  k=false;
+					  }
+                      break;
+//
+            case  4 :
+            case  6 :
+            case  9 :
+            case 11 : if(regf.dia>=1 && regf.dia<=30 ){
+                          cout<<"FECHA CORRECTA";
+						  k=true;
+					  }else{
+                          cout<<"FECHA INCORRECTA";
+						  k=false;
+					  }
+                      break;
+//
+            case  2 : if( regf.anho%4 == 0 && regf.anho % 100 != 0 || regf.anho % 400 == 0 ){
+                          if(regf.dia >= 1 && regf.dia <= 29 ){
+                              cout<<"FECHA CORRECTA";
+							  k=true;
+						  }else{
+                              cout<<"FECHA INCORRECTA";
+							  k=false;
+						  }
+					  }else{
+                          if(regf.dia >= 1 && regf.dia <= 28 ){
+                              cout<<"FECHA CORRECTA";
+							  k=true;
+						  }else{
+                              cout<<"FECHA INCORRECTA";
+							  k=false;
+						  }
+					  }
+		}
+		}else{
+		cout<<"FECHA INCORRECTA";
+		k=false;
+		}
+	}while(k==false);
+	cout<<endl;
+	return(regf);
+}
+
+void crear(){
+	FILE *ptr;
+	regAmigos reg;
+	ptr= fopen("amigos.dat","wb");
+	fclose(ptr);
+}
+
+void adicionar(){
+	FILE *ptr;
+	regAmigos reg;
+	cout<<"Introducir nombre: ";
+	do{
+		gets(reg.nombre);
+	}while(strlen(reg.nombre)==0);
+	do{
+		cout<<"Introducir edad: ";
+		cin>>reg.edad;
+	}while(reg.edad<1 || reg.edad>100);
+	do{
+		cout<<"Introducir Fecha de Nacimiento: ";
+		reg.regf= IngresarFecha();
+	}while(reg.regf.dia==0 && reg.regf.mes==0 && reg.regf.anho==0);
+	do{
+		cout<<"Introducir sexo: <F/M> ";
+		cin>>reg.sexo;
+	}while(reg.sexo!='F' && reg.sexo!='f' && reg.sexo!='M' && reg.sexo!='m');
+	reg.estado='A';
+	ptr= fopen("amigos.dat","ab");
+	fwrite(&reg,sizeof(reg),1,ptr);
+	fclose(ptr);
+}
+
+void listado(){
+	FILE *ptr;
+	regAmigos reg;
+	int c=0;
+	ptr= fopen("amigos.dat","rb");
+	if(ptr!=NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(feof(ptr)==false){
+				c++;
+				if(reg.estado=='A'){
+					cout<<c<<" "<<reg.nombre<<" "<<reg.regf.dia<<"/"<<reg.regf.mes<<"/"<<reg.regf.anho<<" "<<reg.edad<<" "<<reg.sexo<<" "<<reg.estado<<endl;
+				}
+				fread(&reg,sizeof(reg),1,ptr);
+		}
+	}else{
+		cout<<"El archivo no existe...";
+	}
+}
+
+void buscar(int n){
+	FILE *ptr;
+	regAmigos reg;
+	ptr= fopen("amigos.dat","rb");
+	if(ptr!=NULL){
+		fseek(ptr,(n-1)*sizeof(reg),SEEK_SET);
+		fread(&reg,sizeof(reg),1,ptr);
+		if(feof(ptr)==false){
+			if(reg.estado=='A'){
+				cout<<endl;
+				cout<<" "<<reg.nombre<<" "<<reg.regf.dia<<"/"<<reg.regf.mes<<"/"<<reg.regf.anho<<" "<<reg.edad<<" "<<reg.sexo<<" "<<reg.estado<<endl;
+			}else{
+				cout<<"El registro fue eliminado...";
+			}
+		}else{
+			cout<<"El registro no existe...";
+		}
+	}else{
+		cout<<"El archivo no existe...";
+	}
+	fclose(ptr);
+}
+
+void modificar(int n){
+	FILE *ptr;
+	regAmigos reg;
+	ptr= fopen("amigos.dat","r+b");
+	if(ptr!=NULL){
+		fseek(ptr,(n-1)*sizeof(reg),SEEK_SET);
+		fread(&reg,sizeof(reg),1,ptr);
+		if(feof(ptr)==false){
+			cout<<"Introducir nuevo nombre: ";
+			do{
+				gets(reg.nombre);
+			}while(strlen(reg.nombre)==0);
+			do{
+				cout<<"Introducir nueva fecha de nacimiento: ";
+				reg.regf= IngresarFecha();
+			}while(reg.regf.dia==0 && reg.regf.mes==0 && reg.regf.anho==0);
+			do{
+				cout<<"Introducir nueva edad: ";
+				cin>>reg.edad;
+			}while(reg.edad<1 || reg.edad>100);
+			do{
+				cout<<"Introducir nuevo sexo: <F/M> ";
+				cin>>reg.sexo;
+			}while(reg.sexo!='F' && reg.sexo!='f' && reg.sexo!='M' && reg.sexo!='m');
+			reg.estado='A';
+			fseek(ptr,(n-1)*sizeof(reg),SEEK_SET);
+			fwrite(&reg,sizeof(reg),1,ptr);
+		}else{
+			cout<<"El registro no ha sido encontrado...";
+		}
+	}else{
+		cout<<"El archivo no existe...";
+	}
+	fclose(ptr);
+}
+
+void eliminar(int n){
+	FILE *ptr;
+	regAmigos reg;
+	ptr= fopen("amigos.dat","r+b");
+	if(ptr!=NULL){
+		fseek(ptr,(n-1)*sizeof(reg),SEEK_SET);
+		fread(&reg,sizeof(reg),1,ptr);
+		if(feof(ptr)==false && reg.estado=='A'){
+			cout<<" "<<reg.nombre<<" "<<reg.regf.dia<<"/"<<reg.regf.mes<<"/"<<reg.regf.anho<<" "<<reg.edad<<" "<<reg.sexo<<" "<<reg.estado<<endl;
+			reg.estado='E';
+			cout<<"El registro ha sido eliminado...";
+			fseek(ptr,(n-1)*sizeof(reg),SEEK_SET);
+			fwrite(&reg,sizeof(reg),1,ptr);
+		}else{
+			cout<<"El registro no ha sido encontrado...";
+		}
+	}else{
+		cout<<"El archivo no existe...";
+	}
+	fclose(ptr);
+}
+
+void main(){
+	int o,n;
+	do{
+		cout<<endl;
+		cout<<"Menu de Operaciones"<<endl;
+		cout<<"1- Crear Archivo"<<endl;
+		cout<<"2- Adicionar Registro"<<endl;
+		cout<<"3- Listado"<<endl;
+		cout<<"4- Buscar"<<endl;
+		cout<<"5- Modificar"<<endl;
+		cout<<"6- Eliminar"<<endl;
+		cout<<"0- Salir"<<endl;
+		cout<<endl;
+		cout<<"Introducir el numero de la operacion: ";
+		cin>>o;
+		cout<<endl;
+		switch(o){
+		case 1:
+			crear();
+			break;
+
+		case 2:
+			adicionar();
+			break;
+
+		case 3:
+			listado();
+			break;
+
+		case 4:
+			cout<<"Introducir el numero de registro: ";
+			cin>>n;
+			buscar(n);
+			break;
+
+		case 5:
+			cout<<"Introducir el numero de registro: ";
+			cin>>n;
+			modificar(n);
+			break;
+
+		case 6:
+			cout<<"Introducir el numero de registro: ";
+			cin>>n;
+			eliminar(n);
+			break;
+		}
+	}while(o!=0);
+	getch();
+}
