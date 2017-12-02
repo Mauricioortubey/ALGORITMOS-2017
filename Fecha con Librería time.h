@@ -15,65 +15,9 @@
 
 using namespace std;
 
-struct buffer{
-	int Registro;
-	char Edad[MAX];
-	char Born[10];
-	char Nombre[MAX];
-	char ApellidoPAT[MAX];
-	char ApellidoMAT[MAX];
-	char Direccion[MAX];
-	char Mail[MAX];
-	char Telefono[MAX];
-	char Celular[MAX];
-	char CI[MAX];
-	char EXP[MAX];
-	char Nacionalidad[MAX];
-	char Ocupacion[MAX];
-	char Sangre[MAX];
-	char Patologia[MAX];
-	char HistoricoU[MAX];
-};
-
-
-
 struct addUsuario{
-	int Registro;
 	string Born;
 	string Edad;
-	string Nombre;
-	string ApellidoPAT;
-	string ApellidoMAT;
-	string Direccion;
-	string Mail;
-	string Telefono;
-	string Celular;
-	string CI;
-	string EXP;
-	string Nacionalidad;	
-	string Ocupacion;
-	string Sangre;
-	string Patologia;
-	string HistoricoU;
-	addUsuario()
-	{
-		Edad.reserve(1000);
-		Born.reserve(1000);
-		Nombre.reserve(1000);
-		ApellidoPAT.reserve(1000);
-		ApellidoMAT.reserve(1000);
-		Direccion.reserve(1000);
-		Mail.reserve(1000);
-		Telefono.reserve(1000);
-		Celular.reserve(1000);
-		CI.reserve(1000);
-		EXP.reserve(1000);
-		Nacionalidad.reserve(1000);
-		Ocupacion.reserve(1000);
-		Sangre.reserve(1000);
-		Patologia.reserve(1000);
-		HistoricoU.reserve(1000);
-	}
 };
 
 time_t now = time(0);
@@ -321,5 +265,4 @@ cout << endl <<"\n\t\t Fecha de nacimiento: "<<reg.Born;
 			}
 		}
 	}
-	strcpy(rec.Born,reg.Born.c_str());
 }
