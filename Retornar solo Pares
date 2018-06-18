@@ -1,1 +1,46 @@
-// cout << Practica solo
+// Retornar solo Pares.cpp: define el punto de entrada de la aplicaciÃ³n de consola.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+ 
+using namespace std;
+
+double retornarPares(int N);
+
+void main()
+{
+	int nro;
+	double num;
+	do{
+		cout<< "Introduce un numero natural"<<endl;
+		cin>>nro;
+	}while(nro<0);
+
+	num = retornarPares(nro);
+	cout<<"El nuevo numero es: "<<num<<endl;
+
+	_getch();
+}
+
+double retornarPares(int N)
+{
+	int C;
+	double S=0, i=0;
+	while(N>0)
+	{
+		C = N%10;
+		if(C%2==0)
+		{
+			S = S + C*pow(10,i);
+			i++;
+		}
+		N=N/10;
+	}
+	return S;
+}
+
+
+
