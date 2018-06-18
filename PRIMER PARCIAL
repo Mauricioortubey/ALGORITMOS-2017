@@ -1,1 +1,179 @@
-// cout << Practica solo
+
+#################################################################1##########################################################
+
+// Examen 2.cpp: define el punto de entrada de la aplicaciÃ³n de consola.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#define MAX 50
+
+using namespace std;
+
+void Cargar_Vector(int A[],int N);
+bool VerificarNroPrimo (int N);
+void Mostrar_SinPrimos(int A[],int B[],int N);
+
+void main()
+{
+	int dim,Vector[MAX],Final[MAX];
+	do{
+	cout<<"Ingrese el numero de elementos para el vector"<<endl;
+	cin>>dim;
+	}while(dim<0);
+	
+	cout<<endl<<"Llene el vector con numeros mayores a 0:"<<endl;
+	Cargar_Vector(Vector,dim);
+	Mostrar_SinPrimos(Vector,Final,dim);
+
+	_getch();
+}
+void Cargar_Vector(int A[],int N)
+{
+	for(int i=0;i<N;i++)
+	{
+		do{
+		cout<<"Vector["<<i<<"]= ";
+		cin>>A[i];
+		}while(A[i]<=0);
+	}
+
+}
+
+bool VerificarNroPrimo (int N)
+{
+	int i;
+	bool k = true;
+	for (i=2;i<=(N-1);i++)
+	{
+		if(N % i == 0)
+		{
+			k = false;
+			i=N;
+		}
+	}
+	
+	return (k);
+}
+
+void Mostrar_SinPrimos(int A[],int B[],int N)
+{
+	int c=0;
+	for (int i = 0;i<N;i++)
+	{
+		int AUX = A[i];
+		if (VerificarNroPrimo (AUX)==false)
+		{
+			B[c]=AUX;
+			cout<<"FINAL["<<c<<"]= "<<B[c]<<endl;
+			c++;
+		}
+	}
+
+}
+
+
+#############################################################2#############################################################
+
+// SERIE.cpp: define el punto de entrada de la aplicaciÃ³n de consola.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+
+using namespace std;
+double Sumatoria(int N,int X);
+
+
+void main()
+{
+	int N,X;
+	double SUMA;
+	do{
+	cout<<"Ingrese un valor para N que se impar: "<<endl;
+	cin>>N;
+	}while(N%2==0);
+	do{
+	cout<<"Ingrese un valor para X "<<endl;
+	cin>>X;
+	}while(X<0);
+
+	SUMA = Sumatoria(N,X);
+	cout<<endl<<"LA sumatoria es igual a "<<SUMA<<endl;
+
+	_getch();
+}
+
+int fact(int n)
+{
+	int f=1,i=1;
+	while (i<=n)
+	{
+		f=f*i;
+		i++;
+	}
+	return(f);
+}
+
+double Sumatoria(int N,int X)
+{
+	double S = 3;
+	int a = 1;
+	for(int i=1;i<=N;i=i+2)
+	{
+		if (a%2==0)
+		{
+			S = S + (pow(X,i)/fact(i));
+		}
+		else
+		{
+			S = S - (pow(X,i)/fact(i));
+		}
+		a++;
+	}
+	return(S);
+}
+
+
+#########################################################3##########################################################
+
+// Examen.cpp: define el punto de entrada de la aplicaciÃ³n de consola.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string>
+
+using namespace std;
+
+void main()
+{
+	string nombre;
+	cout<<"Ingrese un Nombre:";
+	getline(cin,nombre);
+
+	int c=0;
+	int l=nombre.length();
+	for (int i =0;i<l;i++)
+	{
+		if(nombre.at(i)>='A'&&nombre.at(i)<='Z')
+		{
+			c++;
+		}
+
+	}
+	cout<<endl<<"Cantidad de Mayusculas=="<<c;
+
+	_getch();
+}
+
+
+
+
+
+
+
