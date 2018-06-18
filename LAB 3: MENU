@@ -1,1 +1,102 @@
-// cout << Practica solo
+// MENU.cpp : Defines the entry point for the console application.
+//
+
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "stdlib.h"
+#include "math.h"
+
+
+using namespace std;
+
+float POTEN(float base, int exp);
+int FACT(int X);
+
+void main()
+{	int opcion;
+	do{
+		 cout<<"*****MENU*****"<<endl;
+		 cout<<"1. Sacar la potencia de un numero"<<endl;
+		 cout<<"2. Sacar el factorial de un numero"<<endl;
+		 cout<<"3. Serie: "<<endl;
+		 cout<<"0. Salir"<<endl;
+		 cout<<"Elija la opcion que prefiera"<<endl;
+		 cin>>opcion;
+		 switch(opcion)
+			{
+				case 1: 
+						int Y;
+						float X,POTENCIA;
+						cout<< "INGRESE UN VALOR REAL PARA LA BASE:"<<endl;
+						cin>> X;
+						cout<< "INGRESE UN VALOR PARA EL EXPONENTE:"<<endl;
+						cin>> Y;
+						POTENCIA = POTEN(X,Y);
+						cout<< "LA POTENCIA ES IGUAL A:"<<POTENCIA<<endl;
+					
+						break;
+
+				case 2: 
+						int Factorial,Num;
+						cout<< "INGRESE UN NUMERO PARA HALLAR SU FACTORIAL:"<<endl;
+						cin>> Num;
+					
+						Factorial = FACT(Num);
+
+						cout<< "EL FACTORIAL DE "<<Num<<" ES IGUAL A: "<<Factorial<<endl;
+					
+						break;
+					
+				case 3:
+					{
+						float x,N;
+						cout<< "INGRESE UN VALOR PARA X"<<endl;
+						cin>> x;
+						cout<< "INGRESE UN VALOR PARA N"<<endl;
+						cin>> N;
+						float S=0; //ACUMULADOR
+						for (int i=1;i<=N;i++)
+						{
+							S = S + (POTEN(x,i)/FACT(i)) ;
+						}
+
+						cout<<"LA SUMATORIA ES IGUAL A: "<< S <<endl; 
+						break;
+					}
+				case 0:
+						cout<<"Salir";
+						break;
+					
+				default:
+						cout<<"ERROR";
+						break;
+			}
+			
+			system ("cls");
+	}while( opcion != 0);
+
+	getch();
+
+}
+
+float POTEN(float base, int exp)
+{float Pot;
+Pot = 1.0;
+for (int i = 0; i<=(exp-1); i++)
+{Pot = Pot * base;
+}
+ return Pot;
+}
+
+int FACT(int X)
+{	
+	int F = 1;//ACUMULADOR
+	for(int I = 1; I <= X; I++)//INCREMENTADOR 
+	{
+		F = F * I;
+	}	
+			
+	return F;
+}
