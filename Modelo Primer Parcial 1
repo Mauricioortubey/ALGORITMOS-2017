@@ -1,1 +1,68 @@
-// cout << Practica solo
+// Parcial Infantas 2.cpp: define el punto de entrada de la aplicaciÃ³n de consola.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string>
+
+#define TAM 50
+
+using namespace std;
+
+struct tamigos 
+{
+   string nombre;
+};
+
+void cargar_vector (tamigos vec[], int n);
+void mostrar_vector (tamigos vec[], int n);
+void ordenar_vector (tamigos vec[], int n);
+
+void main()
+{
+   int n;
+   tamigos amigos[TAM];
+   do {
+	    cout << "ingrese el numero de elementos :" << endl;
+	    cin >> n;
+   } while ((n>=TAM)||(n<=0));
+   cargar_vector (amigos,n);
+   ordenar_vector (amigos,n);
+   mostrar_vector (amigos,n);
+   _getch();
+}
+
+void cargar_vector(tamigos vec [], int n)
+{
+	int i;
+	string tempo;
+	cin.ignore();
+	for(i=0;i<n;i++)
+	{ cout << "ingrese el nombre [" << i << "]= " ;
+	  getline(cin,tempo);
+	  vec[i].nombre=tempo;
+	}
+}
+void mostrar_vector (tamigos vec[], int n)
+{ 
+	int i;
+	for(i=0;i<n;i++)
+	{ cout << "vec [" << i << "]= " ;
+	  cout << vec [i].nombre << endl;
+	}
+}
+
+void ordenar_vector (tamigos vec[], int n)
+{
+	int i,j;
+	tamigos aux;
+	 for (i=0;i<n-1;i++)
+	       for (j=i+1;j<n;j++)
+			   if (vec[i].nombre>vec[j].nombre)
+			   { aux=vec[j];
+	             vec[j]=vec[i];
+				 vec[i]=aux;
+	           }
+}
+
