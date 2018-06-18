@@ -1,1 +1,74 @@
-// cout << Practica solo
+// Eliminar No Letras Matriz.cpp: define el punto de entrada de la aplicaciÃ³n de consola.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string>
+
+#define MAX 30
+
+using namespace std;
+
+struct t_Matriz{
+	string Vector[MAX];
+};
+
+t_Matriz Nombres[MAX][MAX];
+int FIL,COL,DIM,L;
+void Cargar(t_Matriz A[MAX][MAX],int F,int C, int D);
+void Eliminar_NOLetra(t_Matriz A[MAX][MAX],int F, int C, int D);
+
+void main()
+{
+	cout<<"\n Ingrese el numero de Filas: ";
+	cin >>FIL;
+	cout<<"\n Ingrese el numero de Columnas: ";
+	cin >>COL;
+	cout<<"\n Ingrese la Dimension del vector: ";
+	cin >>DIM;
+
+	Cargar(Nombres,FIL,COL,DIM);
+	cout<<endl;
+	Eliminar_NOLetra(Nombres,FIL,COL ,DIM );
+	
+	_getch();
+}
+
+void Cargar(t_Matriz A[MAX][MAX],int F,int C, int D)
+{
+	for(int i=1; i<=F;i++){
+		for(int j=1;j<=C;j++){
+			cout<<"\n Matriz :: Casilla ["<<i<<"]["<<j<<"]:"<<endl;
+			for(int k=1;k<=D;k++){
+				cin.ignore();
+				cout<<"\n Slot ["<<k<<"]= ";
+				getline(cin,A[i][j].Vector[k]);	
+			}
+		}
+	}
+}
+
+void Eliminar_NOLetra(t_Matriz A[MAX][MAX],int F, int C, int D)
+{
+	string AUX=" ";
+
+	for(int i=1; i<=F; i++){ // For:: Indica numero de Fila de la Matriz.
+		for(int j=1; j<=C; j++){ // For:: Indica numero de Columna de la Matriz.
+			for (int k=1; k<=D; k++){ // For:: Donde se ubica la casilla del vector con el string.
+				L=A[i][j].Vector[k].length(); // L:: Longitud del string.
+				cout<<"\n Slot Anterior: "<<A[i][j].Vector[k]<<endl;
+				for(int l=0;l<L;l++){ // For:: Donde se Eliminan los que caracteres que no son letras.
+					if(A[i][j].Vector[k].at(l)>='a' && A[i][j].Vector[k].at(l)<='z'){
+						AUX = AUX + A[i][j].Vector[k].at(l);
+					}
+					if(A[i][j].Vector[k].at(l)>='A' && A[i][j].Vector[k].at(l)<='Z'){
+						AUX = AUX + A[i][j].Vector[k].at(l);
+					}
+				}
+				cout<<"\nSlot Nuevo: "<<AUX<<endl;
+				AUX=" ";
+			}
+		}
+	}
+}
