@@ -1,1 +1,96 @@
-// cout << Practica solo
+// Ordenar Esquinas de Matriz.cpp: define el punto de entrada de la aplicaciÃ³n de consola.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string>
+#include "stdlib.h"
+
+#define MAX 10
+
+using namespace std;
+
+//Struct para el Vector de Matrices:
+struct t_Vectormatriz{
+	int Matriz[MAX][MAX];
+};
+
+//Deficion de Variables Globales:
+t_Vectormatriz P_Vector[MAX];
+int FIL,COL,DIM;
+
+//Declaracion de Funciones:
+void Llenar(t_Vectormatriz A[MAX],int D, int F,int C);
+void Mostrar(t_Vectormatriz A[MAX],int D, int F, int C);
+void Ordenar_Esquinas(t_Vectormatriz A[MAX],int D, int F, int C);
+
+//Principal:
+void main(){
+	cout<<"Ingrese la dimension del Vector: ";
+	cin >>DIM;
+	cout<<endl<<"Ingrese el numero de Filas: ";
+	cin >> FIL;
+	cout<<endl<<"Ingrese el numero de Columnas: ";
+	cin >>COL; cout<<"\n";
+
+	//Llamada a la Funcion:
+	Llenar(P_Vector,DIM,FIL,COL);
+	cout<<"\n\n";
+	Ordenar_Esquinas(P_Vector,DIM,FIL,COL);
+	Mostrar(P_Vector,DIM,FIL,COL);
+	
+	_getch();
+}
+
+// Funciones:
+void Llenar(t_Vectormatriz A[MAX],int D, int F,int C)
+{
+	for(int d=1;d<=D;d++){
+		cout<<"Casilla ["<<d<<"] del Vector:"<<endl;
+		for(int i=1; i<=F;i++){
+			for(int j=1;j<=C;j++){
+				A[d].Matriz[i][j]=rand() %9+1;
+				cout<<"Slot ["<<i<<"]["<<j<<"]: ";
+				cout<<A[d].Matriz[i][j]<<endl;
+			}
+		}
+		cout<<"\n\n";
+	}
+
+}
+
+void Mostrar(t_Vectormatriz A[MAX],int D, int F, int C)
+{	for(int d=1;d<=D;d++){
+		cout<<"Casilla ["<<d<<"] del Vector:"<<endl;
+		for (int i=1;i<=F;i++){
+			for (int j=1;j<=C;j++){
+				cout<<"Slot["<<i<<"]["<<j<<"]: "<<A[d].Matriz[i][j]<<endl;
+			}
+		}
+		cout<<"\n\n";
+	}
+}
+void Ordenar_Esquinas(t_Vectormatriz A[MAX],int D, int F, int C)
+{
+	for(int d=1;d<=D;d++){
+		int AUX=0;
+		for(int k=1;k<=4;k++){ //Dado que solo existen 4 Esquinas en una Matriz
+			if(A[d].Matriz[1][1]>A[d].Matriz[1][C]){
+				AUX = A[d].Matriz[1][C];
+				A[d].Matriz[1][C] = A[d].Matriz[1][1];
+				A[d].Matriz[1][1] = AUX;
+			}
+			if(A[d].Matriz[1][C]>A[d].Matriz[F][1]){
+				AUX = A[d].Matriz[F][1];
+				A[d].Matriz[F][1] = A[d].Matriz[1][C];
+				A[d].Matriz[1][C]=AUX;
+			}
+			if(A[d].Matriz[F][1]>A[d].Matriz[F][C]){
+				AUX = A[d].Matriz[F][C];
+				A[d].Matriz[F][C] = A[d].Matriz[F][1];
+				A[d].Matriz[F][1] = AUX;
+			}
+		}	
+	}
+}
