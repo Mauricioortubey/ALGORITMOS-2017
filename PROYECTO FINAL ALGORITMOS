@@ -1,1 +1,2229 @@
-// cout << Practica solo
+// PROYECTO5.0.cpp : Defines the entry point for the console application.
+//
+// Proyecto Final Algoritmos.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"//Es un precompilador de visual studio, sirve para no volver a compilar las librerias de nuevo.
+#include <iostream>//libreria para operaciones de entrada y salida.
+#include <stdio.h>//libreria para trabajar con archivos o printf/scanf.
+#include <conio.h>//libreria para dar estetica del programa.
+#include <string>//Libreria donde se encuantra la clase string que se encarga de trabajar con arrays de caracteres.
+#include <stdlib.h>//Libreria que contiene prototipos del lenguaje C, para trabajar con memoria dinamica (Se uso para atoi).
+#include <time.h>//Libreria que sirve para tratar con fechas y horas del sistema y realizar conversiones y/o operaciones. (Se uso para trabajar con las fechas del sistema y la validacion de entrada).
+#include <windows.h>//cabecera específico de Windows para la programación en lenguaje C/C++ que contiene las declaraciones de todas las funciones de la biblioteca Windows (Usado para el 'Sleep()' ).
+
+//DEFINICIONES
+#define MAX 1000
+#define SI if
+#define SINO else
+#define REPETIR do
+#define MIENTRAS while
+#define USER "Upsa" //Id para la entrada principal del sistema.
+#define PASSWORD  "Upsa"//Contraseña para la entrada principal del sistema.
+#define ADMIN "Admin"//Id del administrador para acceder a su menu.
+#define ADMINPASS "Admin"//Contraseña del administrador para acceder a su menu.
+
+//Se definio los nombres de los archivos usados para mayor facilidad. 
+#define datausuario "Datos Personales de Usuarios.SEC"
+#define datadoctores "Registro de Doctores.SEC"
+#define dataocupaciones "Ocupaciones.SEC"
+#define datanacionalidad "Nacionalidades.SEC"
+#define temporal "temporal.SEC"//Usuado para el borrado fisica y la compactar.
+
+
+using namespace std;
+
+struct Usuario_c {
+	char Nickname[25];
+	char Password[25];
+	char Edad[15];
+	char Born[15];
+	char Nombre[30];
+	char Apellido[30];
+	char Direccion[100];
+	char Genero[5];
+	char Mail[60];
+	char Telefono[10];
+	char Celular[10];
+	char CI[10];
+	char Registro[15];
+	char EXP[5];
+	char Nacionalidad[25];
+	char Ocupacion[100];
+	char Sangre[10];
+	char Patologia[100];
+};
+struct Usuario_s {
+	string Nickname;
+	string Password;
+	string Edad;
+	string Born;
+	string Nombre;
+	string Apellido;
+	string Genero;
+	string Direccion;
+	string Mail;
+	string Telefono;
+	string Celular;
+	string CI;
+	string Registro;
+	string EXP;
+	string Nacionalidad;
+	string Ocupacion;
+	string Sangre;
+	string Patologia;
+	Usuario_s()
+	{
+	Nickname.reserve(1000);
+	Password.reserve(1000);
+	Nombre.reserve(1000);
+	Apellido.reserve(1000);
+	Born.reserve(1000);
+	Genero.reserve(1000);
+	Direccion.reserve(1000);
+	Mail.reserve(1000);
+	Telefono.reserve(1000);
+	Celular.reserve(1000);
+	CI.reserve(1000);
+	Registro.reserve(1000);
+	EXP.reserve(1000);
+	Nacionalidad.reserve(1000);
+	Ocupacion.reserve(1000);
+	Sangre.reserve(1000);
+	Patologia.reserve(1000);
+	}
+};
+struct Doctores_c {
+	char IDoc[25];
+	char PassDoc[25];
+	char Nombre[30];
+	char Apellido[30];
+	char CI[15];
+	char EXP[3];
+	char Cel[15];
+	char Telef[15];
+	char Especialidad[50];
+
+};
+struct Doctores_s {
+	string IDoc;
+	string PassDoc;
+	string Nombre;
+	string Apellido;
+	string CI;
+	string EXP;
+	string Cel;
+	string Telef;
+	string Especialidad;
+};
+
+//STRUCT DE OCUPACIONES:
+struct Ocupacion_s {
+	string Ocupacion;
+};
+
+struct Ocupacion_c {
+	char Ocupacion[100];
+};
+
+//STRUCT DE NACIONALIDADES:
+struct Nacionalidad_s {
+	string Nacionalidad;
+};
+
+struct Nacionalidad_c {
+	char Nacionalidad[50];
+};
+
+//STRUCT DE DIAGNOSTICOS INDIVIDUALES HECHOS POR DOCTORES.
+struct Diagnostico_Ds {
+	string Fecha;
+	string Id;
+	string Paciente;
+	string diagnostico;
+	string Doctor;
+	string Motivo;
+	string Medicamento;
+};
+
+struct Diagnostico_Dc {
+	char Fecha[15];
+	char Id[15];
+	char Paciente[50];
+	char diagnostico[MAX];
+	char Doctor[35];
+	char Motivo[30];
+	char Medicamento[30];
+};
+
+//STRUCT DIAGNOSTICOS INDIVIDUALES HECHOS POR USUARIOS.
+struct Diagnostico_Dus {
+	string Fecha;
+	string Persona;
+	string Id;
+	string Motivo;
+	string Diagnostico;
+	string Medicamente;
+};
+
+struct Diagnostico_Duc {
+	char Fecha[15];
+	char Persona[50];
+	char Id[15];
+	char Motivo[30];
+	char Diagnostico[MAX];
+	char Medicamento[30];
+};
+
+//VARIABLES GLOBALES PARA EL STRUCT DE DIAGNOSTICOS HECHOS POR USUARIOS.
+Diagnostico_Dus DUs;
+Diagnostico_Duc DUc;
+
+
+//VARIABLES GLOBALES PARA EL STRUCT DE OCUPACIONES.
+Ocupacion_c reco;
+Ocupacion_s rego;
+
+//VARIABLES GLOBALES PARA EL STRUCT DEL DOCTOR.
+Doctores_c recd;
+Doctores_s regd;
+
+//VARIABLES GLOBALES PARA EL STRUCT DE LOS USUARIOS.
+Usuario_c rec;
+Usuario_s reg;
+
+//VARIABLES GLOBALES PARA EL STRUCT DE NACIONALIDAD.
+Nacionalidad_c recp;
+Nacionalidad_s regp;
+
+//VARIABLES GLOABLES PARA EL STRUCT DE DIAGNOSTICO.
+Diagnostico_Dc DDc;
+Diagnostico_Ds DDs;
+
+
+//Para Manejar Fecha Actual.
+time_t now = time(0);
+tm * Time = localtime(&now);
+//Año:
+int Anow = Time->tm_year; 
+int since = 1900;
+int Tonow = since + Anow;
+//Meses:
+int Mnow = (Time->tm_mon) + 1;
+//Dia:
+int Dnow = (Time->tm_mday);
+
+//VARIABLES GLOBALES PARA EL MANEJO DE INGRESO DEL ADMINISTRADOR
+string U,P;
+
+//PROTOTIPOS:
+void AccesoAdmin();
+void Administrador();
+void ListarDoctores();
+void ListarUsuarios();
+void AccesoSistema();
+void Fecha_de_Nacimiento(bool &band);
+void Seguridad(bool &ingreso);
+void MenuPrincipal();
+void MenuDoctor();
+void MenuUsuario();
+void CrearUsuario();
+void MeterDatosUsuario(bool &band);
+void SesionUsuario();
+void Nacionalidad();
+void MostrarUsuario(string &Usuario);
+void MostrarDatosPaciente(string &Usuario);
+void ModificarDatosPaciente(string &Usuario);
+void Temporizador();
+void Ocupacion();
+void EliminarProfesion();
+void EliminarNacionalidad();
+bool Busquedasesiondoctor(string &Usuario, string &Password);//ok
+void CrearDoctor();
+void SesionDoctor();//ok
+void Diagnosticos(string &Doctor, string &Registro);//ok
+void MenuDoctor(string &Usuario);//ok
+void MeterDatosDoctores(bool &band);
+void EliminarCuentaDoctor();
+void EliminarCuentaUsuario();
+void Verdatos();//ok
+void ListadoDiagnosticoXdoctores(string &Registro);//ok
+void ListadoDiagnosticosXpacientes(string &Registro);//ok
+
+
+
+
+bool Salir();
+bool Busquedaparasesion(string &Usuario, string &Password);
+
+char MenuAdmin();
+char Menu();
+char SeleccionDoctor();//ok
+char SeleccionUsuario();
+char MenudeSangre();
+char SeleccionMostrarU();
+
+
+string TipoSangre();
+
+
+// MAIN:
+int main(){
+	SetConsoleTitle(TEXT("PROYECTO ALGORITMOS 2017"));
+	AccesoSistema();
+	return 0;
+}
+
+
+//FUNCIONES:
+void AccesoSistema(){
+	bool ingreso = false;
+	Seguridad(ingreso);
+	SI(ingreso == true) {
+		MenuPrincipal();
+	}
+	
+}
+void Seguridad(bool &ingreso){
+	int i=0,s=3;
+	REPETIR{
+		system("cls");
+		REPETIR{
+			system("cls");
+		cout<<endl<<endl;
+		cout<<"		--------------------------------------------------------------------------------------------------------------"<<endl;
+		cout<<"		|      @@@@@@@@   @@@@@@@@      @@@@@@@    @@      @@   @@@@@@@@@     @@@@@@@@  @@@@@@@@@@@@     @@@@@@@     |"<<endl;
+		cout<<"		|      @@     @@  @@     @@   @@       @@   @@    @@    @@          @@@              @@        @@       @@   |"<<endl;
+		cout<<"		|      @@     @@  @@     @@   @@       @@    @@  @@     @@         @@@               @@        @@       @@   |"<<endl;
+		cout<<"		|      @@@@@@@@   @@@@@@@@    @@       @@      @@       @@@@@@@   @@@                @@        @@       @@   |"<<endl;
+		cout<<"		|      @@         @@   @@     @@       @@      @@       @@         @@@               @@        @@       @@   |"<<endl;
+		cout<<"		|      @@         @@    @@    @@       @@      @@       @@          @@@              @@        @@       @@   |"<<endl;
+		cout<<"		|      @@         @@     @@     @@@@@@@        @@       @@@@@@@@@     @@@@@@@@       @@          @@@@@@@     |"<<endl;
+		cout<<"		--------------------------------------------------------------------------------------------------------------"<<endl;
+		cout<<endl;
+		cout<<"\t---------------------------------------------------------------------------------------------------------------------------------"<<endl;
+		cout<<"							      LOGIN DEL SISTEMA "<<endl;
+		cout<<"\t---------------------------------------------------------------------------------------------------------------------------------"<<endl;
+		cout<<endl<<endl<<endl;
+		cout<<"\n\t\t\t\t                           * ID: ";
+		getline(cin, U);
+		cout<<"\n\t\t\t\t                           * PASSWORD: ";
+		getline(cin, P);
+	
+		SI(U==USER && P==PASSWORD){
+			ingreso = true;
+		} SINO {
+			system("cls");
+			cout<<"ACCESO DENEGADO!"<<endl;
+			i++;
+		}
+		}MIENTRAS(ingreso == false && i< 3);
+
+		SI ( ingreso == false){
+			MIENTRAS(s>0){
+			cout<<endl<<endl<<endl;
+			cout<<"\n\n\n\n\n\t\t\t\t\t\t            USTED NO PUDO INGRESAR AL SISTEMA."<<endl;
+			cout<<"\n\n\t\t\t\t\t\t              POR FAVOR ESPERE: "<<s<<" SEGUNDOS."<<endl;
+			Sleep(1000);//1 segundo
+			s--;
+			system("cls");
+			}
+			return;
+		} SINO {
+			cout<<endl<<endl<<"\n\t\t\t\t\t\t          BIENVENIDO AL SISTEMA! ";
+			Sleep(1000);
+			ingreso = true;
+		}
+	} MIENTRAS (ingreso == false);
+}
+bool Salir(){
+	int s=3;
+	MIENTRAS(s>=1){
+	cout<<"\n\n\n\n\n\n\n\n\t\t\t\t            SALIENDO...POR FAVOR ESPERE... "<<s<<"...SEGUNDOS."<<endl;
+	Sleep(1000);//1 segundo
+	s--;
+	system("cls");
+	}
+	return(false);
+}
+char Menu(){
+	char op;
+	system("cls");
+	cout<<endl<<endl<<endl<<endl<<endl;
+	cout<<"\t\t\t\t\t\t\t|----------------MENU----------------|"<<endl;
+	cout<<"\t\t\t\t\t\t\t| 1: Ingresar como Administrador.    |"<<endl;
+	cout<<"\t\t\t\t\t\t\t| 2: Ingresar como Doctor.           |"<<endl;
+	cout<<"\t\t\t\t\t\t\t| 3: Ingresar como Usuario.          |"<<endl;
+	cout<<"\t\t\t\t\t\t\t| X: Salir                           |"<<endl;
+	cout<<"\t\t\t\t\t\t\t|------------------------------------|"<<endl;
+	cout<<"\t\t\t\t\t\t\t * Ingrese Opcion: ";
+	op = toupper(_getche());
+	return (op);
+}
+void MenuPrincipal(){
+	bool m=true;
+	MIENTRAS(m == true){
+		char op = Menu();
+		
+		switch(op){
+		case '1':{	system("cls");
+					AccesoAdmin();
+					Administrador();
+			break;
+			}
+
+		case '2':{	system("cls");
+					SesionDoctor();
+			break;
+			}
+		case '3':{	system("cls");
+					MenuUsuario();
+			break;
+			}
+		case 'X':{	system("cls");
+					m = Salir();
+			break;
+			}
+		}
+	}
+}
+
+//1::ADMIN:---------------------------------------------------------------------------------------------------------------------------------------------
+void AccesoAdmin(){
+	string UAdmin,PAdmin;
+	int i=0, s=1;
+	bool ingreso = false;
+	REPETIR{system("cls");
+		REPETIR{
+			system("cls");
+			cout << "\t\t\t\t\t---------------------------" << endl;
+			cout << "\t\t\t\t\t  LOGIN   ADMINISTRADOR " << endl;
+			cout << "\t\t\t\t\t---------------------------" << endl;
+			cout << "\n\t\t\t\t ADMIN: ";
+			cin >> UAdmin;
+			cout << "\n\t\t\t\t PASSWORD: ";
+			cin >> PAdmin;
+
+		SI(UAdmin==ADMIN && PAdmin==ADMINPASS){
+				ingreso = true;
+			} SINO {
+				system("cls");
+				cout << "\n\t\t\t\t ACCESO DENEGADO! " << endl;
+				i++;
+			}
+		} MIENTRAS (ingreso == false && i<3);
+		
+		SI (ingreso==false) {
+			cout << "\t\t\t\t\t Numero de errores maximos alcanzados." << endl;
+			MIENTRAS(s < 5){
+			cout << "\n\t\t\t\t Por favor Espere: " << s << " segundos y vuelva a intentar." << endl;
+			Sleep(800);
+			s++;
+			system("cls");
+			}
+		} SINO {
+			cout << "\n\t\t\t\t\t  BIENVENIDO!" << endl;
+		}
+	} MIENTRAS (ingreso==false);
+}
+char MenuAdmin(){
+	char op;
+	system("cls");
+	cout<<endl<<endl<<endl<<endl<<endl;
+	cout << "\t\t\t\t\t\t\t|-----------------MENU----------------|" << endl;
+	cout << "\t\t\t\t\t\t\t|  1: Listar Cuentas de Doctores.     |" << endl;//LISTO
+	cout << "\t\t\t\t\t\t\t|  2: Listar Cuentas de Usuarios.     |" << endl;//LISTO
+	cout << "\t\t\t\t\t\t\t|  3: Crear Cuenta Doctor.            |" << endl;//LISTO
+	cout << "\t\t\t\t\t\t\t|  4: Eliminar Cuenta Doctor.         |" << endl;//LISTO pero eliminacion logica.
+	cout << "\t\t\t\t\t\t\t|  A: Adicionar Profesion.            |" << endl;//LISTO
+	cout << "\t\t\t\t\t\t\t|  B: Eliminar Profesion.             |" << endl;//LISTO
+	cout << "\t\t\t\t\t\t\t|  C: Adicionar Nacionalidad.         |" << endl;//LISTO
+	cout << "\t\t\t\t\t\t\t|  D: Eliminar Nacionalidad.          |" << endl;//LISTO
+	cout << "\t\t\t\t\t\t\t|  X: Salir.                          |" << endl;//LISTO
+	cout << "\t\t\t\t\t\t\t|-------------------------------------|" << endl;
+	cout << "\t\t\t\t\t\t\t * Ingrese Opcion: ";
+	op = toupper(_getche());
+	return (op);
+}
+void Administrador(){
+	bool k=true;
+	string Registro;
+	MIENTRAS (k==true){
+		char op = MenuAdmin();
+		switch(op){
+			case '1' : {	
+				system("cls");
+				ListarDoctores();
+				break;
+				}
+			case '2' : {	
+				system("cls");
+				ListarUsuarios();
+				break;
+				}
+			case '3' : {	
+				system("cls");
+				CrearDoctor();
+				break;
+				}
+			case '4' : {	
+				system("cls");
+				EliminarCuentaDoctor();
+				break;
+				}
+			case 'A' : {	
+				system("cls");
+				Ocupacion();
+				break;
+			}
+			case 'B': {		
+				system("cls");
+				EliminarProfesion();
+				break;
+			}
+			case 'C': {		
+				system("cls");
+				Nacionalidad();
+				break;
+			}
+			case 'D': {		
+				system("cls");
+				EliminarNacionalidad();
+				break;
+			}
+			case 'X' : {	
+				system("cls");
+				k=false;
+				break;
+			}
+		}
+	}
+}
+void CrearDoctor() {
+	char C;
+	string Aux;
+	bool band = true;
+	FILE *Doc;
+	Doc = fopen(datadoctores, "ab+");
+	
+	SI(Doc == NULL) {
+		cout << endl << "Creando Archivo";
+		Temporizador();
+		Doc = fopen(datadoctores, "wb");
+		fclose(Doc);
+		Doc = fopen(datadoctores, "ab+");
+		system("cls");
+	}
+	
+	cout << endl << "\n\t\t\t LOGIN DE DOCTOR:			<< '0'  PARA  SALIR >>" << endl << "\t\t\t";
+	REPETIR{
+		getline(cin,regd.IDoc);
+		fflush(stdin);
+	}MIENTRAS(regd.IDoc.size() == 0);
+	
+	SI(regd.IDoc == "0") {
+		return;
+	}
+
+	fread(&recd, sizeof(recd), 1, Doc);
+	MIENTRAS(!feof(Doc)) {
+		Aux = recd.IDoc;
+		SI(regd.IDoc.compare(Aux) == 0) {
+			cout << endl << "\n\t\t Ya existe!";
+			Sleep(800);
+			cout << endl << endl << "\n\t\t Redireccionando";
+			Temporizador();
+			fclose(Doc);
+			system("cls");
+			return;
+		}
+		fread(&recd, sizeof(recd), 1, Doc);
+	}
+	cout << endl << "\n\t\t\t PASSWORD:			<< '0'  PARA  SALIR >>" << endl << "\t\t\t";
+	REPETIR{
+		getline(cin,regd.PassDoc);
+		fflush(stdin);
+	}MIENTRAS(regd.PassDoc.size() == 0);
+
+	SI(regd.PassDoc == "0") {
+		return;
+	}
+	
+	fflush(stdin);
+	MeterDatosDoctores(band);
+	fflush(stdin);
+
+	SI(band != true) {
+		fclose(Doc);
+		return;
+	}
+
+	REPETIR{ cout << endl << "\t Guardar Datos?";
+	cout << endl << "\t\t [S] = SI";
+	cout << endl << "\t\t [N] = NO";
+	cout << endl << "\n\t\t R ::> ";
+	C = toupper(_getche());
+	} MIENTRAS (C != 'S' && C != 'N');
+	SI(C == 'S') {
+		strcpy_s(recd.IDoc, regd.IDoc.c_str());
+		strcpy_s(recd.PassDoc, regd.PassDoc.c_str());
+		strcpy_s(recd.Nombre, regd.Nombre.c_str());
+		strcpy_s(recd.Apellido, regd.Apellido.c_str());
+		strcpy_s(recd.Telef, regd.Telef.c_str());
+		strcpy_s(recd.EXP, regd.EXP.c_str());
+		strcpy_s(recd.Especialidad, regd.Especialidad.c_str());
+
+		fwrite(&recd, sizeof(recd), 1, Doc);
+		fclose(Doc);
+		cout << endl << "\t\t\t\t\t\t\t PROCESANDO DATOS";
+		Temporizador();
+		cout << endl << "\t\t\t\t\t\t\t DATOS ALMACENADOS";
+		Sleep(1000);
+		return;
+	} SINO{ system("cls");
+	cout << endl << "\t\t\t\t\t\t\t DATOS NO ALMACENADOS";
+	fclose(Doc);
+	Sleep(1000);
+	return;
+	}
+}
+void ListarDoctores(){
+	FILE *Doc;
+	int c=0;
+	Doc = fopen(datadoctores,"rb");
+	SI (Doc==NULL){
+		cout<<endl<<"\n\t\t\t\t NO EXISTEN REGISTROS. << Presione una Tecla para continuar >>";
+		_getch();
+		return;
+	} SINO {
+			cout << endl << "||------------------------------------------------ || LISTADO DE DOCTORES || ------------------------------------------------------||";
+		fread(&recd,sizeof(recd),1,Doc);
+		MIENTRAS(!feof(Doc)){
+			cout << endl << "||		>> Ubicacion en Archivo: " << c; Sleep( 50);
+			cout << endl << "||			>> ID doctor: " << recd.IDoc; Sleep(50);
+			cout << endl << "||			>> Password: " << recd.PassDoc; Sleep(50);
+			cout << endl << "||"; Sleep(50);
+			cout << endl << "||			>> Doctor: " << recd.Nombre << " " << recd.Apellido; Sleep(50);
+			cout << endl << "||			>> Celular: " << recd.Cel; Sleep(50);
+			cout << endl << "||			>> Telefono: " << recd.Telef; Sleep(50);
+			cout << endl << "||			>> Carnet de Identidad: " << recd.CI << recd.EXP; Sleep(50);
+			cout << endl << "||			>> Especialidad: " << recd.Especialidad; Sleep(50);
+			cout << endl << "||"; Sleep(50);
+			cout << endl << "||---------------------------------------------------------------------------------------------------------------------------------||"; 
+			c++;
+			fflush(stdin);
+			fread(&recd,sizeof(recd),1,Doc);
+		}
+	fclose(Doc);
+	cout << endl << endl<<endl<<endl;
+	cout << endl << "\t\t\t\t\t\t << PRESIONE UNA TECLA PARA SALIR. >>";
+	_getch();
+	return;
+	}
+}
+void ListarUsuarios(){
+	FILE *Doc;
+	int c=0;
+	Doc = fopen(datausuario,"rb");
+	SI(Doc==NULL){
+		cout<<endl<<"\n\t\t\t\t NO EXISTEN REGISTROS. << Presione una Tecla para continuar >>";
+		_getch();
+		return;
+	} SINO {
+			cout << endl << endl << endl;
+			cout << endl << "||---------------------------------------------------||    DATA DE USUARIOS    ||---------------------------------------------------||" << endl;
+		fread(&rec,sizeof(rec),1,Doc);
+		MIENTRAS(!feof(Doc)){
+			string G = " ";
+			cout << endl << "||	>> Nro. de Ubicacion en Archivo: " << c; Sleep(10);
+			cout << endl << "||		>> Registro: " << rec.Registro; Sleep(10);
+			cout << endl << "||		>> Nickname: " << rec.Nickname; Sleep(10);
+			cout << endl << "||		>> Password: " << rec.Password; Sleep(10);
+			cout << endl << "||		>> Paciente: " << rec.Nombre << " " << rec.Apellido; Sleep(10);
+			cout << endl << "||		>> Fecha de Nacimiento: " << rec.Born; Sleep(10);
+			cout << endl << "||		>> Edad: " << rec.Edad << " anhos."; Sleep(10);
+			G = rec.Genero;
+			SI(G == "M") { cout << endl << "||		>> Sexo: Masculino."; Sleep(10);
+			} SINO{ cout << endl << "||		>> Sexo: Femenino."; Sleep(10); }
+			cout << endl << "||		>> Carnet de Identidad: " << rec.CI; Sleep(10);
+			cout << endl << "||		>> Telefono: " << rec.Telefono; Sleep(10);
+			cout << endl << "||		>> Celular: " << rec.Celular; Sleep(10);
+			cout << endl << "||		>> Ocupacion: " << rec.Ocupacion; Sleep(10);
+			cout << endl << "||		>> Tipo de Sangre: " << rec.Sangre; Sleep(10);
+			cout << endl << "||		>> Patologias o Discapacidades: " << rec.Patologia; Sleep(10);
+			cout << endl;
+			cout << endl << "||----------------------------------------------------------------------------------------------------------------------------------||" << endl;
+			c++;
+			fflush(stdin);
+			fread(&rec,sizeof(rec),1,Doc);
+		}
+	fclose(Doc);
+	cout<<endl<<endl<<endl<<endl;
+	cout<<endl<< "\t\t\t\t\t\t\t << PRESIONE UNA TECLA PARA SALIR. >>";
+	_getch();
+	return;
+	}
+} 
+
+void MeterDatosDoctores(bool &band){
+	int L = 0;
+	string Aux;
+	FILE * ptr;
+	ptr = fopen(datadoctores, "ab+");
+
+	fflush(stdin);
+	cout << endl << "\t\t >> Ingresar Nombre(s): ";
+	REPETIR{
+		getline(cin, regd.Nombre);
+		fflush(stdin);
+	}MIENTRAS(regd.Nombre.size() == 0);
+
+	REPETIR{ cout << endl << "\t\t >> Ingrese Apellidos: ";
+		getline(cin,regd.Apellido);
+		fflush(stdin);
+	}MIENTRAS(regd.Apellido.size() == 0);
+
+	REPETIR{ cout << endl << "\t\t >> Telefono: ";
+		getline(cin,regd.Telef);
+		fflush(stdin);
+	}MIENTRAS(regd.Telef.size() == 0);
+
+	REPETIR{ cout << endl << "\t\t >> Celular: ";
+		getline(cin,regd.Cel);
+		fflush(stdin);
+	}MIENTRAS(regd.Cel.size() == 0);
+
+	fread(&recd, sizeof(recd), 1, ptr);
+	MIENTRAS (!feof(ptr)) {
+		Aux = recd.Cel;
+		SI (regd.Cel.compare(Aux) == 0) {
+			cout << endl << "\t\t Este numero ya existe!";
+			fclose(ptr);
+			Sleep(1000);
+			band = false;
+			return;
+		}
+		fread(&recd, sizeof(recd), 1, ptr);
+	}
+	SI(band == true) {
+		strcpy_s(recd.Cel, regd.Cel.c_str());
+		fflush(stdin);
+	}
+
+	REPETIR{ cout << endl << "\t\t >> Nro. de Carnet de Identidad: ";
+		getline(cin,regd.CI);
+		fflush(stdin);
+	}MIENTRAS(regd.CI.size() == 0);
+	
+	fread(&recd, sizeof(recd), 1, ptr);
+	MIENTRAS(!feof(ptr)) {
+		Aux = recd.CI;
+		SI(regd.CI.compare(Aux) == 0) {
+			cout << endl << "Duplicado!";
+			fclose(ptr);
+			Sleep(1000);
+			band = false;
+			return;
+		}
+		fread(&recd, sizeof(recd), 1, ptr);
+	}
+	SI(band == true) {
+		strcpy_s(recd.CI, regd.CI.c_str());
+		fflush(stdin);
+	}
+
+	REPETIR{ cout << endl << "\t\t >> Expedido en: ";
+	getline(cin,regd.EXP);
+	fflush(stdin);
+	}MIENTRAS(regd.EXP.size() == 0);
+
+	REPETIR{ cout << endl << "\t\t >> Especialidad: ";
+	getline(cin,regd.Especialidad);
+	fflush(stdin);
+	}MIENTRAS(regd.Especialidad.size() == 0);
+
+	fflush(stdin);
+	fclose(ptr);
+
+}
+void EliminarCuentaUsuario() {
+	FILE *Doc;
+	char C;
+	int c = 0;
+	string Ci, Aux, G;
+	Doc = fopen(datausuario, "rb+");
+	SI(Doc == NULL) {
+		cout << endl << "\n\t\t\t\t NO EXISTEN REGISTROS. << Presione una Tecla para continuar >>";
+		_getch();
+		return;
+	}
+	 SINO {
+		 cout << "Ingresar el CI del doctor para eliminar: ";
+		REPETIR{
+		 getline(cin, Ci);
+		}MIENTRAS(Ci.size() == 0);
+		
+		 fread(&rec, sizeof(rec), 1, Doc);
+		 MIENTRAS(!feof(Doc)){
+			 c++;
+			 Aux = rec.CI;
+			 SI(Ci.compare(Aux) == 0) {
+				 cout << endl << "||	>> Nro. de Ubicacion en Archivo: " << c;
+				 cout << endl << "||		>> Registro: " << rec.Registro;
+				 cout << endl << "||		>> Nickname: " << rec.Nickname;
+				 cout << endl << "||		>> Password: " << rec.Password;
+				 cout << endl << "||		>> Paciente: " << rec.Nombre << " " << rec.Apellido;
+				 cout << endl << "||		>> Fecha de Nacimiento: " << rec.Born;
+				 cout << endl << "||		>> Edad: " << rec.Edad << " anhos.";
+				 cout << endl << "||		>> Direccion: " << rec.Direccion;
+				 cout << endl << "||		>> Nacionalidad: " << rec.Nacionalidad;
+				 cout << endl << "||		>> Correo Electronico: " << rec.Mail;
+				 G = rec.Genero;
+				 SI (G == "M") { cout << endl << "||		>> Sexo: Masculino.";} SINO { cout << endl << "||		>> Sexo: Femenino."; }
+				 cout << endl << "||		>> Carnet de Identidad: " << rec.CI << " " << rec.EXP;
+				 cout << endl << "||		>> Telefono: " << rec.Telefono;
+				 cout << endl << "||		>> Celular: " << rec.Celular;
+				 cout << endl << "||		>> Ocupacion: " << rec.Ocupacion;
+				 cout << endl << "||		>> Tipo de Sangre: " << rec.Sangre;
+				 cout << endl << "||		>> Patologias o Discapacidades: " << rec.Patologia;
+				 cout << endl;
+				 break;
+			 }
+			 fread(&rec, sizeof(rec), 1, Doc);
+		 }
+		 REPETIR{ cout << endl << "\t Eliminar Datos?";
+		 cout << endl << "\t\t [S] = SI";
+		 cout << endl << "\t\t [N] = NO";
+		 cout << endl << "\n\t\t R ::> ";
+		 C = toupper(_getche());
+
+		 } MIENTRAS(C != 'S' && C != 'N');
+
+		 SI(C == 'S') {
+			 strcpy_s(rec.Registro, " ");
+			 strcpy_s(rec.Nickname, " ");
+			 strcpy_s(rec.Password, " ");
+			 strcpy_s(rec.Nombre, " ");
+			 strcpy_s(rec.Apellido, " ");
+			 strcpy_s(rec.Born, " ");
+			 strcpy_s(rec.Edad, " ");
+			 strcpy_s(rec.Direccion, " ");
+			 strcpy_s(rec.Nacionalidad, " ");
+			 strcpy_s(rec.Mail, " ");
+			 strcpy_s(rec.Genero, " ");
+			 strcpy_s(rec.CI, " ");
+			 strcpy_s(rec.EXP, " ");
+			 strcpy_s(rec.Telefono, " ");
+			 strcpy_s(rec.Celular, " ");
+			 strcpy_s(rec.Ocupacion, " ");
+			 strcpy_s(rec.Sangre, " ");
+			 strcpy_s(rec.Patologia, " ");
+
+			 fseek(Doc, (c - 1) * sizeof(rec), SEEK_SET);
+			 fwrite(&rec, sizeof(rec), 1, Doc);
+			 fclose(Doc);
+			 cout << endl << "\t\t\t\t\t\t\t PROCESANDO DATOS";
+			 Temporizador();
+			 cout << endl << "\t\t\t\t\t\t\t DATOS ELIMINADOS";
+			 Sleep(1000);
+			 return;
+		 } SINO{ system("cls");
+		 cout << endl << "\t\t\t\t\t\t\t DATOS NO ELIMINADOS";
+		 fclose(Doc);
+		 Sleep(1000);
+		 return;
+		 }
+	 }
+}
+void EliminarCuentaDoctor() {
+	FILE *Doc;
+	char C;
+	int c = 0;
+	string Ci, Aux;
+	Doc = fopen(datausuario, "rb+");
+	SI(Doc == NULL) {
+		cout << endl << "\n\t\t\t\t NO EXISTEN REGISTROS. << Presione una Tecla para continuar >>";
+		_getch();
+		return;
+	}
+	SINO{
+		cout << "Ingresar el CI del Usuario para eliminar: ";
+	REPETIR{
+		getline(cin, Ci);
+	}MIENTRAS(Ci.size() == 0);
+
+	fread(&recd, sizeof(recd), 1, Doc);
+	MIENTRAS(!feof(Doc)) {
+		c++;
+		Aux = recd.CI;
+		SI(Ci.compare(Aux) == 0) {
+			cout << endl << "||			>> : " << recd.IDoc;
+			cout << endl << "||			>> Password: " << recd.PassDoc;
+			cout << endl << "||			>> Nombre: " << recd.Nombre << " " << recd.Apellido;
+			cout << endl << "||			>> Celular: " << recd.Cel;
+			cout << endl << "||			>> Telefono: " << recd.Telef;
+			cout << endl << "||			>> Carnet de Identidad: " << recd.CI << " " << recd.EXP;
+			cout << endl << "||			>> Especialidad: " << recd.Especialidad;
+			break;
+		}
+		fread(&recd, sizeof(recd), 1, Doc);
+	}
+	REPETIR{ cout << endl << "\t Eliminar Datos?";
+		cout << endl << "\t\t [S] = SI";
+		cout << endl << "\t\t [N] = NO";
+		cout << endl << "\n\t\t R ::> ";
+		C = toupper(_getche());
+	} MIENTRAS(C != 'S' && C != 'N');
+
+	SI (C == 'S') {
+		strcpy_s(recd.IDoc, " ");
+		strcpy_s(recd.PassDoc, " ");
+		strcpy_s(recd.Nombre, " ");
+		strcpy_s(recd.Apellido, " ");
+		strcpy_s(recd.Cel, " ");
+		strcpy_s(recd.Telef, " ");
+		strcpy_s(recd.CI, " ");
+		strcpy_s(recd.EXP, " ");
+		strcpy_s(recd.Especialidad, " ");
+
+		fseek(Doc, (c - 1) * sizeof(recd), SEEK_SET);
+		fwrite(&recd, sizeof(recd), 1, Doc);
+		fclose(Doc);
+		cout << endl << "\t\t\t\t\t\t\t PROCESANDO DATOS";
+		Temporizador();
+		cout << endl << "\t\t\t\t\t\t\t DATOS ELIMINADOS";
+		Sleep(1000);
+		return;
+	} SINO{ system("cls");
+	cout << endl << "\t\t\t\t\t\t\t DATOS NO ELIMINADOS";
+	fclose(Doc);
+	Sleep(1000);
+	return;
+	}
+	}
+}
+
+void Ocupacion() {
+	int c = 0;
+	FILE *ptr;
+	ptr = fopen(dataocupaciones, "ab+");
+	SI(ptr == NULL) {
+		cout << endl << "Creando Archivo";
+		Sleep(2000);
+		ptr = fopen(dataocupaciones, "wb");
+		fclose(ptr);
+		ptr = fopen(dataocupaciones, "ab+");
+	}
+	SI(ptr != NULL) {
+		fread(&reco, sizeof(reco), 1, ptr);
+		MIENTRAS(!feof(ptr)) {
+			c++;
+			cout << endl << c << " >> " << reco.Ocupacion;
+			Sleep(50);
+			fread(&reco, sizeof(reco), 1, ptr);
+		}
+	}
+	cout << endl << "Ingresar Ocupacion:			<< 0 para Salir >>";
+	cout << endl << "\n Escriba: ";
+	REPETIR{ 
+		getline(cin,rego.Ocupacion);
+		fflush(stdin);
+	} MIENTRAS (rego.Ocupacion.size() == 0);
+	
+	SI(rego.Ocupacion == "0") {
+		fclose(ptr);
+		return;
+	}
+	strcpy_s(reco.Ocupacion, rego.Ocupacion.c_str());
+	fwrite(&reco, sizeof(reco), 1, ptr);
+
+	fclose(ptr);
+	cout << endl << "PRESIONE UNA TECLA PARA SALIR";
+	_getch();
+}
+void EliminarProfesion() {
+	FILE *B;
+	FILE *A;
+	int c = 0;
+	A = fopen(dataocupaciones, "rb");
+	SI(A == NULL) {
+		cout << endl << "El archivo no Existe";
+		Sleep(2000);
+		cout << endl << "Presione una tecla para continuar.";
+		_getch();
+		return;
+	} SINO{
+		cout << endl << "Ingrese la ocupacion para eliminar. (en MAYUSCULAS)		<< 0 para salir >>";
+	string Profesion;
+	REPETIR{
+		cout << endl << "Escriba: "; getline(cin,Profesion);
+	fflush(stdin);
+	}MIENTRAS(Profesion.size() == 0);
+
+	SI(Profesion == "0") {
+		fclose(A);
+		return;
+	}
+
+	B = fopen(temporal, "wb"); // Creacion del archivo temporal.
+
+	fread(&reco, sizeof(reco), 1, A);
+	MIENTRAS(!feof(A)) {
+		string AUX = reco.Ocupacion;
+		SI(Profesion.compare(AUX) != 0) {
+			fwrite(&reco, sizeof(reco), 1, B);
+		}
+		fread(&reco, sizeof(reco), 1, A);
+	}
+
+	_fcloseall();
+	remove(dataocupaciones);
+	rename(temporal, dataocupaciones);
+	}
+	cout << endl << "Archivo Compactado.";
+	cout << endl << "Presione una tecla para continuar.";
+	_getch();
+}
+
+void Nacionalidad() {
+	FILE *ptr;
+	ptr = fopen(datanacionalidad, "ab+");
+	SI(ptr == NULL) {
+		cout << endl << "Creando Archivo";
+		Sleep(2000);
+		ptr = fopen(datanacionalidad, "wb");
+		fclose(ptr);
+		ptr = fopen(datanacionalidad, "ab+");
+	}
+	int c = 0;
+
+	SI(ptr != NULL) {
+		fread(&recp, sizeof(recp), 1, ptr);
+		MIENTRAS(!feof(ptr)) {
+			c++;
+			cout << endl << c << " >> " << recp.Nacionalidad;
+			Sleep(70);
+			fread(&recp, sizeof(recp), 1, ptr);
+		}
+	}
+	cout << endl;
+	cout << endl << "Ingresar Nacionalidad:				<< 0 para Salir >>";
+	cout << endl << "\n Escriba: ";
+	REPETIR{
+		getline(cin,regp.Nacionalidad);
+	fflush(stdin);
+	}MIENTRAS(regp.Nacionalidad.size() == 0);
+	SI(regp.Nacionalidad == "0") {
+		fclose(ptr);
+		return;
+	}
+	strcpy_s(recp.Nacionalidad, regp.Nacionalidad.c_str());
+	fwrite(&recp, sizeof(recp), 1, ptr);
+
+	fclose(ptr);
+	cout << endl << "PRESIONE UNA TECLA PARA SALIR";
+	_getch();
+}
+void EliminarNacionalidad() {
+	FILE *B;
+	FILE *A;
+	int c = 0;
+	A = fopen(datanacionalidad, "rb");
+	SI(A == NULL) {
+		cout << endl << "El archivo no Existe";
+		Sleep(2000);
+		cout << endl << "Presione una tecla para continuar.";
+		_getch();
+		return;
+	} SINO{
+		cout << endl << "Ingrese la Nacionalidad para eliminar. (en MAYUSCULAS)		<< 0 para salir >>";
+	string Nacionalidad;
+	REPETIR{
+		cout << endl << "Escriba: "; getline(cin,Nacionalidad);
+	fflush(stdin);
+	}MIENTRAS(Nacionalidad.size() == 0);
+
+	SI(Nacionalidad == "0") {
+		fclose(A);
+		return;
+	}
+
+	B = fopen(temporal, "wb"); // Creacion del archivo temporal.
+
+	fread(&recp, sizeof(recp), 1, A);
+	MIENTRAS(!feof(A)) {
+		string AUX = recp.Nacionalidad;
+		SI(Nacionalidad.compare(AUX) != 0) {
+			fwrite(&recp, sizeof(recp), 1, B);
+		}
+		fread(&recp, sizeof(recp), 1, A);
+	}
+
+	_fcloseall();
+	remove(datanacionalidad);
+	rename(temporal, datanacionalidad);
+	}
+	cout << endl << "Archivo Compactado.";
+	cout << endl << "Presione una tecla para continuar.";
+	_getch();
+}
+
+//DOCTOR:-----------------------------------------------------------------------------------------------------------------------------------------------
+//2:: Menu del Doctor:
+void SesionDoctor() {
+	int i = 0;
+	string Usuario, Password;
+	FILE *Archivo;
+	
+	Archivo = fopen(datadoctores, "rb");
+	
+	SI(Archivo == NULL) {
+		cout << endl << endl << endl << endl << endl << endl;
+		cout << endl << "\t\t\t\t\t\t <<ARCHIVO INEXISTENTE, PRESIONE UNA TECLA PARA SER REDIRECCIONADO.>>";
+		_getch();
+		system("cls");
+		return;
+	} SINO{ cout << endl << "\t >>> LOGIN DOCTOR:  ";
+	
+		REPETIR{
+			getline(cin,Usuario);
+		fflush(stdin);
+		}MIENTRAS(Usuario.size() == 0);
+
+		cout << endl << "\t >>> PASSWORD:  ";
+	
+		REPETIR{
+			getline(cin, Password);
+			fflush(stdin);
+		}MIENTRAS(Password.size() == 0);
+	
+		SI(Busquedasesiondoctor(Usuario,Password) == true) {
+			MenuDoctor(Usuario);
+		} SINO {
+				cout << endl << "\t\t\t\t\t\t\t ERROR, VUELVA A INTENTAR.";
+				cout << endl << "\t\t\t\t\t\t\t REDIRECCIONANDO.";
+	
+				MIENTRAS (i <= 3) {
+					Sleep(1000);
+					cout << ".";
+					i++;
+				}
+		}
+	}
+
+}
+bool Busquedasesiondoctor(string &Usuario, string &Password) {
+	bool R = false;
+	string AuxU, AuxP;
+	FILE *Archivo;
+	
+	Archivo = fopen(datadoctores, "rb");
+
+	fread(&recd, sizeof(recd), 1, Archivo);
+	MIENTRAS(!feof(Archivo)) {
+		AuxU = recd.IDoc; AuxP = recd.PassDoc;
+		SI((Usuario.compare(AuxU) == 0) && (Password.compare(AuxP) == 0)) {
+			R = true;
+		}
+		fread(&recd, sizeof(recd), 1, Archivo);
+	}
+	return R;
+}
+char SeleccionDoctor(){
+	char op;
+	system("cls");
+	cout<<endl<<endl<<endl<<endl<<endl;
+	cout << "\t\t\t\t\t\t\t|------------MENU DOCTOR---------------|" << endl;
+	cout << "\t\t\t\t\t\t\t| 1: Ver Datos del Paciente            |" << endl;//LISTO
+	cout << "\t\t\t\t\t\t\t| 2: Adicionar Diagnostico/Consulta    |" << endl;
+	cout << "\t\t\t\t\t\t\t| 3: Listado de Diagnosticos generales |" << endl;
+	cout << "\t\t\t\t\t\t\t| X: Salir                             |" << endl;
+	cout << "\t\t\t\t\t\t\t|--------------------------------------|" << endl;
+	cout << "\t\t\t\t\t\t\t * Ingrese Opcion: ";
+	op = toupper(_getche());
+	return (op);
+}
+void Verdatos(string Ci) {
+	string Aux;
+	FILE *Archivo;
+	Archivo = fopen(datausuario, "rb");
+
+	fread(&rec, sizeof(rec), 1, Archivo);
+	MIENTRAS(!feof(Archivo)) {
+		Aux = rec.CI;
+		SI((Ci.compare(Aux)) == 0) {
+			fflush(stdin);
+			cout << endl << "\t>> Registro: " << rec.Registro;
+			cout << endl << "\t>> Nombre Completo: " << rec.Nombre; cout << " " << rec.Apellido;
+			cout << endl << "\t>> Fecha de Nacimiento: " << rec.Born;
+			cout << endl << "\t>> Edad: " << rec.Edad << " anhos.";
+			cout << endl << "\t>> CI: " << rec.CI << " " << rec.EXP;
+			cout << endl << "\t>> Direccion: " << rec.Direccion;
+			cout << endl << "\t>> Celular: " << rec.Celular;
+			cout << endl << "\t>> Telefono: " << rec.Telefono;
+			cout << endl << "\t>> Correo Electronico: " << rec.Mail;
+			cout << endl << "\t>> Ocupacion: " << rec.Ocupacion;
+			cout << endl << "\t>> Tipo de Sangre: " << rec.Sangre;
+			cout << endl << "\t>> Descripcion de Patologias: " << rec.Patologia;
+			cout << endl << endl;
+			cout << endl << "\t\t\t\t\t\t\t\t\t\t\t\t\t<< PRESIONE UNA TECLA PARA SALIR. >>";
+			_getch();
+			fclose(Archivo);
+			return;
+		}
+		fread(&rec, sizeof(rec), 1, Archivo);
+	}
+}
+void Diagnosticos(string &Doctor, string &Registro) {
+	FILE *Individual;
+	string Archivo_Usuario = "Diagnostico de " + Registro + ".SEC";
+	char Archivo_Individual[40];
+	char op;
+	strcpy_s(Archivo_Individual, Archivo_Usuario.c_str());
+
+	Individual = fopen(Archivo_Individual, "ab+");
+	SI(Individual == NULL) {
+		cout << endl << "Creando Nueva Documentacion de diagnosticos.";
+		Sleep(1200);
+		Individual = fopen(Archivo_Individual, "wb");
+		fclose(Individual);
+		Individual = fopen(Archivo_Individual, "ab+");
+		system("cls");
+	}
+	SI(Mnow < 10) {
+		DDs.Fecha = to_string((_ULonglong)Dnow) + "/0" + to_string((_ULonglong)Mnow) + "/" + to_string((_ULonglong)Tonow);
+	} SINO{
+		DDs.Fecha = to_string((_ULonglong)Dnow) + "/" + to_string((_ULonglong)Mnow) + "/" + to_string((_ULonglong)Tonow);
+	}
+	
+	cout << endl << "   FECHA DE CONSULTA: " << DDs.Fecha ;
+	DDs.Doctor = Doctor;
+	cout << endl << "\t\t >> DOCTOR: " << DDs.Doctor;
+	cout << endl << "\t\t\t >> NOMBRE DEL PACIENTE: "; 
+	
+	REPETIR{
+		getline(cin, DDs.Paciente);
+	fflush(stdin);
+	} MIENTRAS(DDs.Paciente.size()==0);
+	
+	DDs.Id = Registro;
+	cout << endl << "\t\t\t >> REGISTRO DEL PACIENTE: " << DDs.Id;
+	cout << endl << "\t\t\t >> MOTIVO : ";
+	
+	REPETIR{
+		getline(cin,DDs.Motivo);
+	fflush(stdin);
+	} MIENTRAS(DDs.Motivo.size() == 0);
+	cout << endl << "\t\t\t >> DIAGNOSTICO: ";
+	REPETIR{
+		getline(cin,DDs.diagnostico);
+		fflush(stdin);
+	} MIENTRAS(DDs.diagnostico.size() == 0);
+	cout << endl << "\t\t\t >> MEDICAMENTO RECETADO ? [S/N]: ";
+	REPETIR{
+		op = toupper(_getche());
+	} MIENTRAS(op!='S' && op!='N');
+
+	SI(op == 'S') {
+		cout << endl << "\t INGRESE EL MEDICAMENTO RECETADO: ";
+		getline(cin, DDs.Medicamento);
+		fflush(stdin);
+	} SINO {
+		DDs.Medicamento = "Sin Receta Medica";
+	}
+
+	cout << endl << "\t\t DESEA ALMACENAR ESTE DIAGNOSTICO ?";
+	cout << endl << "\t\t\t [S] = SI";
+	cout << endl << "\t\t\t [N] = NO";
+	cout << endl << "\t\t\t * >> "; 
+	REPETIR{
+		op = toupper(_getch());
+		fflush(stdin);
+	} MIENTRAS(op != 'S' && op != 'N' );
+		
+	SI(op == 'S') {
+		strcpy_s(DDc.Fecha, DDs.Fecha.c_str());
+		strcpy_s(DDc.Doctor, DDs.Doctor.c_str());
+		strcpy_s(DDc.Paciente, DDs.Paciente.c_str());
+		strcpy_s(DDc.Id, DDs.Id.c_str());
+		strcpy_s(DDc.Motivo, DDs.Motivo.c_str());
+		strcpy_s(DDc.diagnostico, DDs.diagnostico.c_str());
+		strcpy_s(DDc.Medicamento, DDs.Medicamento.c_str());
+		fwrite(&DDc, sizeof(DDc), 1, Individual);
+		fclose(Individual);
+	} SINO {
+		fclose(Individual);
+	cout << endl << "\t\t\t\t\t DATOS NO ALMACENADOS";
+	Sleep(1500);
+	fclose(Individual);
+	return;
+	}
+}
+void MenuDoctor(string &Usuario){
+	bool m=true;
+	string Ci, Registro, Aux, Doctor;
+	FILE *ptr;
+	ptr = fopen(datadoctores, "rb");
+	fread(&recd, sizeof(recd), 1, ptr);
+	MIENTRAS(!feof(ptr)) {
+		Aux = recd.IDoc;
+		SI(Usuario.compare(Aux) == 0) {
+			Doctor = recd.Nombre;
+			Doctor = Doctor + " ";
+			Doctor = Doctor + recd.Apellido;
+		}
+		fread(&recd, sizeof(recd), 1, ptr);
+	}
+	fclose(ptr);
+
+	MIENTRAS(m==true){
+		char op = SeleccionDoctor();
+		switch(op){
+		case '1' :{	system("cls");
+			cout << endl << "\t\t >> Ingrese el CI del Paciente: ";
+			getline(cin, Ci);
+			Verdatos(Ci);
+			break;	
+			}
+		case '2' :{	system("cls");
+			cout << endl << "\n\t\t >> Ingrese el Registro para almacenar nuevo Diagnostico/Consulta: ";
+			REPETIR{
+				getline(cin, Registro);
+				fflush(stdin);
+			}MIENTRAS(Registro.size() == 0);
+			Diagnosticos(Doctor, Registro);
+			break;
+			}
+		case '3': {	system("cls");
+			cout << endl << "\n\t\t >> Ingrese el Registro para ver el Diagnostico/Consulta: ";
+			REPETIR{
+				getline(cin, Registro);
+				fflush(stdin);
+			}MIENTRAS(Registro.size() == 0);
+			ListadoDiagnosticoXdoctores(Registro);
+			break;
+		}
+		case 'X' :{	system("cls");
+					m=false;
+			break;
+			}
+		}
+	}
+}
+
+/*void ListadoDiagnosticosXpacientes(string &Registro) { //FALTA HACER SU STRUCT
+	FILE *Diagnostico;
+	string Archivo_Usuario = "Sintomas de " + Registro + ".SEC";
+	char Archivo_Individual[40];
+	strcpy_s(Archivo_Individual, Archivo_Usuario.c_str());
+	Diagnostico = fopen(Archivo_Individual, "rb");
+	SI(Diagnostico == NULL) {
+		cout << endl << "Creando Nueva Documentacion de diagnosticos.";
+		Sleep(1200);
+		Diagnostico = fopen(Archivo_Individual, "wb");
+		fclose(Diagnostico);
+		Diagnostico = fopen(Archivo_Individual, "ab+");
+		system("cls");
+	}
+	fread(&DUc, sizeof(DUc), 1, Diagnostico);
+	int c = 0;
+		cout << endl << "||-----------------------------------------------------DIAGNOSTICOS/CONSULTAS------------------------------------------------------------||";
+		cout << endl << "-------------------------------------------------------------------------------------------------------------------------------------------";
+	MIENTRAS(!feof(Diagnostico)){
+		c++;
+		cout << endl << "Nro. Archivo: " << c; Sleep(10);
+		cout << endl << "\t   FECHA DE CREACION: " << DUc.Fecha; Sleep(10);
+		cout << endl << "\t\t\t  >> NOMBRE: "<< DUc.Persona; Sleep(10);
+		cout << endl << "\t\t\t  >> REGISTRO/ID: " << DUc.Id; Sleep(10);
+		cout << endl << "\t\t\t  >> MOTIVO: "<< DUc.Motivo; Sleep(10);
+		cout << endl << "\t\t\t  >> DIAGNOSTICO: "<<DUc.Diagnostico; Sleep(10);
+		cout << endl << "\t\t\t  >> MEDICAMENTO TOMADO: "<< DUc.Medicamento; Sleep(10);
+		cout << endl << "||--------------------------------------------------------------------------------------------------------------------------------------||";
+		fread(&DUc, sizeof(DUc), 1, Diagnostico);
+	}
+
+	cout << endl << "\t\t\t\t\t\t\t\t\t <<PRESIONE UNA TECLA PARA CONTINUAR.>>";
+	_getch();
+}*/
+
+void ListadoDiagnosticoXdoctores(string &Registro) {
+	FILE *Diagnostico;
+	string Archivo_Usuario = "Diagnostico de " + Registro + ".SEC";
+	char Archivo_Individual[40];
+	strcpy_s(Archivo_Individual, Archivo_Usuario.c_str());
+	Diagnostico = fopen(Archivo_Individual, "rb");
+	SI(Diagnostico == NULL) {
+		cout << endl << "Creando Nueva Documentacion de diagnosticos.";
+		Sleep(1200);
+		Diagnostico = fopen(Archivo_Individual, "wb");
+		fclose(Diagnostico);
+		Diagnostico = fopen(Archivo_Individual, "ab+");
+		system("cls");
+	}
+	fread(&DDc, sizeof(DDc), 1, Diagnostico);
+	int c = 0;
+	cout << endl << "||-----------------------------------------------------DIAGNOSTICOS/CONSULTAS------------------------------------------------------------||";
+	cout << endl << "-------------------------------------------------------------------------------------------------------------------------------------------";
+	MIENTRAS(!feof(Diagnostico)) {
+		c++;
+		cout << endl << "Nro. Archivo: " << c; Sleep(10);
+		cout << endl << "\t   FECHA DE CONSULTA: " << DDc.Fecha; Sleep(10);
+		cout << endl << "\t\t\t  >> DOCTOR: " << DDc.Doctor; Sleep(10);
+		cout << endl << "\t\t\t  >> NOMBRE DEL PACIENTE: " << DDc.Paciente; Sleep(10);
+		cout << endl << "\t\t\t  >> REGISTRO DEL PACIENTE: " << DDc.Id; Sleep(10);
+		cout << endl << "\t\t\t  >> MOTIVO : " << DDc.Motivo; Sleep(10);
+		cout << endl << "\t\t\t  >> DIAGNOSTICO: " << DDc.diagnostico; Sleep(10);
+		cout << endl << "\t\t\t  >> MEDICAMENTO RECETADO: " << DDc.Medicamento; Sleep(10);
+		cout << endl << "||--------------------------------------------------------------------------------------------------------------------------------------||";
+		fread(&DDc, sizeof(DDc), 1, Diagnostico);
+	}
+
+	cout << endl << "\t\t\t\t\t\t\t\t\t <<PRESIONE UNA TECLA PARA CONTINUAR.>>";
+	_getch();
+}
+
+// USUARIO:---------------------------------------------------------------------------------------------------------------------------------------------
+//3:: Menu del Usuario:
+char SeleccionUsuario() {
+	char op;
+	system("cls");
+	cout << endl << endl << endl << endl << endl;
+	cout << "\t\t\t\t\t\t\t|------------MENU USUARIO------------|" << endl;
+	cout << "\t\t\t\t\t\t\t| 1: Crear Usuario                   |" << endl;
+	cout << "\t\t\t\t\t\t\t| 2: Iniciar Sesion                  |" << endl;
+	cout << "\t\t\t\t\t\t\t| X: Salir                           |" << endl;
+	cout << "\t\t\t\t\t\t\t|------------------------------------|" << endl;
+	cout << "\t\t\t\t\t\t\t * Ingrese Opcion: ";
+	op = toupper(_getche());
+	return (op);
+}
+void MenuUsuario() {
+	bool m = true;
+	MIENTRAS(m == true) {
+		char op = SeleccionUsuario();
+		switch (op) {
+		case '1': {	system("cls");
+			CrearUsuario(); //Funcion Crear Usuario	
+			break;
+		}
+		case '2': {	system("cls");
+			SesionUsuario(); //MenuUsuario2 Mostrar Por:
+			break;
+		}
+		case 'X': {	system("cls");
+			m = false;
+			break;
+		}
+
+		}
+	}
+}
+void CrearUsuario(){
+	char C;	string Aux;
+	bool band = true;
+	FILE *Archivo;
+	Archivo = fopen(datausuario,"ab+");
+	SI (Archivo == NULL){
+		cout << endl << "Creando Archivo";
+		Temporizador();
+		Archivo = fopen(datausuario,"wb");
+		fclose(Archivo);
+		Archivo = fopen(datausuario,"ab+");
+		system("cls");
+	}
+	cout << endl << "\n\t REGISTRESE:" <<endl;
+	cout << "\n\t\t\t LOGIN DE USUARIO:			<< '0'  PARA  SALIR >> " << endl;
+	REPETIR{	
+		getline(cin, reg.Nickname);
+		fflush(stdin);
+	} MIENTRAS (reg.Nickname.size()==0);
+	SI(reg.Nickname == "0") {
+		return;
+	}
+	fread(&rec,sizeof(rec),1,Archivo);
+	MIENTRAS (!feof(Archivo)) {
+		Aux = rec.Nickname;
+		SI (reg.Nickname.compare(Aux)==0) {
+			cout <<endl<<"\n\t\t Ya existe!";
+			Sleep(800);
+			cout << endl << endl <<"\n\t\t Redireccionando";
+			Temporizador();
+			fclose(Archivo);
+			system("cls");
+			return;
+		}
+		fread(&rec,sizeof(rec),1,Archivo);
+	}
+
+	cout << "\n\t\t\t PASSWORD: ";
+	REPETIR{
+		getline(cin,reg.Password);
+		fflush(stdin);
+	} MIENTRAS (reg.Password.size()==0);
+
+	Fecha_de_Nacimiento(band);
+	SI ( band !=true){
+		fclose(Archivo);
+		return;
+	}
+
+	fflush(stdin);
+	MeterDatosUsuario(band);
+	fflush(stdin);
+
+	SI (band !=true){
+		fclose(Archivo);
+		return;
+	}
+	
+	REPETIR {cout << endl <<"\t\t\t\t\t\t\t Guardar Datos?";
+			 cout << endl <<"\t\t\t\t\t\t\t\t [S] = SI"; 
+			 cout << endl <<"\t\t\t\t\t\t\t\t [N] = NO";
+			 cout << endl <<"\n\t\t\t\t\t\t\t\t R ::> ";
+			 C = toupper(_getche());
+
+	} MIENTRAS ( C!='S' && C!='N');	
+	SI (C=='S'){
+		strcpy_s(rec.Born,reg.Born.c_str());
+		strcpy_s(rec.Edad,reg.Edad.c_str());
+		strcpy_s(rec.Nickname,reg.Nickname.c_str());
+		strcpy_s(rec.Password,reg.Password.c_str());
+		strcpy_s(rec.Nombre,reg.Nombre.c_str());
+		strcpy_s(rec.Apellido,reg.Apellido.c_str());
+		strcpy_s(rec.Genero,reg.Genero.c_str());
+		strcpy_s(rec.Direccion,reg.Direccion.c_str());
+		strcpy_s(rec.Telefono,reg.Telefono.c_str());
+		strcpy_s(rec.Nacionalidad,reg.Nacionalidad.c_str());
+		strcpy_s(rec.EXP,reg.EXP.c_str());
+		reg.Registro = reg.CI + reg.EXP;
+		strcpy_s(rec.Registro,reg.Registro.c_str());
+		strcpy_s(rec.Ocupacion,reg.Ocupacion.c_str());
+		strcpy_s(rec.Sangre,reg.Sangre.c_str());
+		strcpy_s(rec.Patologia,reg.Patologia.c_str());
+
+		fwrite(&rec,sizeof(rec),1,Archivo);
+		fclose(Archivo);
+		cout << endl << "\t\t\t\t\t\t\t PROCESANDO DATOS";
+		Temporizador();
+		cout << endl << "\t\t\t\t\t\t\t DATOS ALMACENADOS";
+		Sleep(1000);
+		return;
+	} SINO { system("cls");
+		cout << endl << "\t\t\t\t\t\t\t DATOS NO ALMACENADOS";
+		fclose(Archivo);
+		Sleep(1000);
+		return;
+	}
+}
+void MeterDatosUsuario(bool &band){
+	int L=0,Age=0;
+	int c, S;
+	string Aux; char D;
+	FILE * ptr;
+	ptr= fopen(datausuario,"rb+");
+	
+	fflush(stdin);
+	cout << endl << "\t\t >> Ingresar Nombre(s): ";
+	REPETIR {
+		getline(cin, reg.Nombre);
+		fflush(stdin);
+	} MIENTRAS (reg.Nombre.size()==0);
+	
+	REPETIR { cout << endl << "\t\t >> Ingrese Apellidos: ";
+		getline(cin,reg.Apellido);
+		fflush(stdin);
+	} MIENTRAS (reg.Apellido.size()==0);
+	
+	REPETIR { cout << endl << "\t\t >> Genero <M/F>: ";
+		REPETIR {
+			getline(cin,reg.Genero);
+			fflush(stdin);
+			L = reg.Genero.length();
+		} MIENTRAS (L>1);
+	} MIENTRAS ((reg.Genero != "M" && reg.Genero !="F"));
+	
+	REPETIR { cout << endl << "\t\t >> Direccion: ";
+		getline(cin,reg.Direccion);
+		fflush(stdin);
+	} MIENTRAS (reg.Direccion.size()==0);
+	
+	REPETIR { cout << endl << "\t\t >> Telefono de su domicilio: ";
+		getline(cin,reg.Telefono);
+		fflush(stdin);
+	} MIENTRAS (reg.Telefono.size()==0);
+	
+	REPETIR { cout << endl << "\t\t >> Celular: ";
+		getline(cin,reg.Celular);
+		fflush(stdin);
+	} MIENTRAS (reg.Celular.size()==0);
+	
+	fread(&rec,sizeof(rec),1,ptr);
+	MIENTRAS (!feof(ptr)){
+		Aux = rec.Celular;
+		SI(reg.Celular.compare(Aux)==0){
+			cout <<endl<<"\t\t ESTE NUMERO DE CELULAR YA EXISTE!";
+			fclose(ptr);
+			Sleep(1000);
+			band = false;
+			return;
+		}
+	fread(&rec,sizeof(rec),1,ptr);
+	}
+	SI(band==true){
+	strcpy_s(rec.Celular,reg.Celular.c_str());
+	fflush(stdin);
+	}
+	
+	REPETIR{ cout << endl << "\t\t >> Correo Electronico: ";
+		getline(cin,reg.Mail);
+		fflush(stdin);
+	}MIENTRAS(reg.Mail.size()==0);
+
+	fread(&rec,sizeof(rec),1,ptr);
+	MIENTRAS(!feof(ptr)){
+		Aux = rec.Mail;
+		SI(reg.Mail.compare(Aux)==0){
+			cout <<endl<<"\t\t\t ESTE CORREO YA EXISTE!";
+			fclose(ptr);
+			Sleep(1000);
+			band = false;
+			return;
+		}
+	fread(&rec,sizeof(rec),1,ptr);
+	}
+	SI(band==true){
+		strcpy_s(rec.Mail,reg.Mail.c_str());
+		fflush(stdin);
+	}
+	
+	FILE *ptr3;
+	ptr3 = fopen(datanacionalidad, "rb");
+	fread(&recp, sizeof(recp), 1, ptr3);
+	cout << endl << "\t\t\t LISTA DE NACIONALIDADES: "<<endl;
+	c = 0;
+	MIENTRAS(!feof(ptr3)) {
+		c++;
+		cout << endl << "\t\t" << c << " >> " << recp.Nacionalidad;
+		Sleep(70);
+		fread(&recp, sizeof(recp), 1, ptr3);
+	}
+	cout << endl;
+	cout << endl << "\t SELECCIONE EL NUMERO DE SU NACIONALIDAD:       (Si no esta en la lista ingrese '0' para digitar manualmente:)"; // S para escoger Nacionalidad.
+	REPETIR{
+		cout << endl << "\t\t\t ===> "; cin >> S; cin.ignore();
+	} MIENTRAS(S<0 || S>c);
+	SI(S == 0) {
+		cout << endl << "\t\t >> Nacionalidad: ";
+		REPETIR{ cin.ignore();
+			getline(cin, reg.Nacionalidad);
+			fflush(stdin);
+		}MIENTRAS(reg.Nacionalidad.size() == 0);
+		fclose(ptr3);
+	} SINO{
+		rewind(ptr3); // Retorna al comienzo del Archivo.
+		fread(&recp, sizeof(recp), 1, ptr3);
+		c = 0;
+		MIENTRAS(!feof(ptr3)) {
+			SI((S - 1) == c) {
+				reg.Nacionalidad = recp.Nacionalidad;
+				break;
+			}
+			c++;
+			fread(&recp, sizeof(recp), 1, ptr3);
+		}
+		cout << endl << "\t\t >> Nacionalidad: " << reg.Nacionalidad;
+		fclose(ptr3);
+	}
+
+	REPETIR{ cout << endl << "\t\t >> Nro. de Carnet de Identidad: ";
+		getline(cin,reg.CI);
+		fflush(stdin);
+	}MIENTRAS(reg.CI.size()==0);
+	fread(&rec,sizeof(rec),1,ptr);
+	MIENTRAS(!feof(ptr)){
+		Aux = rec.CI;
+		SI(reg.CI.compare(Aux)==0){
+			cout<<endl<<"\t\t\tDUPLICADO!";
+			fclose(ptr);
+			Sleep(1000);
+			band = false;
+			return;
+		}
+		fread(&rec,sizeof(rec),1,ptr);
+	}
+	SI(band==true){
+		strcpy_s(rec.CI,reg.CI.c_str());
+		fflush(stdin);
+	}
+
+	REPETIR{ cout << endl << "\t\t >> Expedido en: ";
+		getline(cin,reg.EXP);
+		fflush(stdin);
+	}MIENTRAS(reg.EXP.size()==0);
+	
+	FILE * ptr2;
+	ptr2 = fopen(dataocupaciones, "rb"); // Para listar las ocupaciones.
+	fread(&reco, sizeof(reco), 1, ptr2);
+	cout << endl << "\t\t\t LISTA DE OCUPACIONES: " << endl;
+	c = 0;
+	MIENTRAS(!feof(ptr2)) {
+		c++;
+		cout << endl << "\t\t" << c << " >> " << reco.Ocupacion;
+		Sleep(70);
+		fread(&reco, sizeof(reco), 1, ptr2);
+	}
+	cout << endl;
+	cout << endl << "\t SELECCIONE EL NUMERO DE SU OCUPACION:       (Si no esta en la lista ingrese '0' para digitar manualmente:)"; // S para escoger ocupacion.
+	REPETIR { 
+		cout << endl << "\t\t\t ===> "; cin >> S; cin.ignore();
+	} MIENTRAS (S<0 || S>c);
+
+	SI (S == 0) {
+		cout << endl << "\t\t >> Ocupacion: ";
+		REPETIR{ cin.ignore();
+			getline(cin, reg.Ocupacion);
+		}MIENTRAS(reg.Ocupacion.size()==0); 
+		fclose(ptr2);
+	} SINO {
+		rewind(ptr2); // Retorna al comienzo del Archivo.
+		fread(&reco,sizeof(reco),1,ptr2);
+		c = 0;
+		MIENTRAS(!feof(ptr2)) {
+			SI((S-1)== c) {
+				reg.Ocupacion = reco.Ocupacion;
+				break;
+			}
+			c++;
+			fread(&reco, sizeof(reco), 1, ptr2);
+		}
+		cout << endl << "\t\t >> Ocupacion: "<< reg.Ocupacion;
+		fclose(ptr2);
+	}
+	
+	cout << endl << "\t\t\t\t\t\t ------------------DATOS MEDICOS:------------------";
+	reg.Sangre=TipoSangre();
+	cout << endl << "\t\t\t\t >> Tipo de Sangre: "<<reg.Sangre;
+	fflush(stdin);
+
+	cout << endl << endl << "\t\t >> Tiene Patologias ? \n";
+	REPETIR{
+			cout << endl <<"\t[S] = SI"; 
+			cout << endl <<"\t[N] = NO";
+			cout << endl <<"\t >> ";
+			D = toupper(_getche());
+	} MIENTRAS ( D!='S' && D!='N');
+
+	SI (D=='S'){
+		
+		REPETIR {
+			cout << endl <<"\t\t\t >>> Describa: ";
+			getline(cin,reg.Patologia);
+			fflush(stdin);
+		} MIENTRAS (reg.Patologia.size()==0);
+	} SINO {
+		fflush(stdin);
+		reg.Patologia = " El usuario no presenta Patologias.";
+	}
+	
+	fflush(stdin);
+	fclose(ptr);
+
+}
+char MenudeSangre(){
+	char op;
+	cout<<endl<<endl;
+	cout << endl <<"\t\t\t\t|-- IngreseTipo de Sangre--|";
+	cout << endl <<"\t\t\t\t| 1.Tipo: Orh(+)           |";
+	cout << endl <<"\t\t\t\t| 2.Tipo: Orh(-)           |";
+	cout << endl <<"\t\t\t\t| 3.Tipo:   A(+)           |";
+	cout << endl <<"\t\t\t\t| 4.Tipo:   A(-)           |";
+	cout << endl <<"\t\t\t\t| 5.Tipo:   B(+)           |";
+	cout << endl <<"\t\t\t\t| 6.Tipo:   B(-)           |";
+	cout << endl <<"\t\t\t\t| 7.Tipo:  AB(+)           |";
+	cout << endl <<"\t\t\t\t| 8.Tipo:  AB(-)           |";
+	cout << endl <<"\t\t\t\t|--------------------------|";
+	cout << endl << "\n\t\t\t\t Tipo: ";
+	op = toupper(_getche());
+	return (op);
+}
+string TipoSangre(){
+	bool Sangre = true;
+	string S;
+	char Os = MenudeSangre();
+	MIENTRAS(Sangre==true){
+		switch(Os){
+		case '1': S = "Orh(+)";
+				Sangre=false;
+				break;
+		case '2': S = "Orh(-)";
+				Sangre=false;
+				break;
+		case '3': S = "A(+)";
+				Sangre=false;
+				break;
+		case '4': S = "A(-)";
+				Sangre=false;
+				break;
+		case '5': S = "B(+)";
+				Sangre=false;
+				break;
+		case '6': S = "B(-)";
+				Sangre=false;
+				break;
+		case '7': S = "AB(+)";
+				Sangre=false;
+				break;
+		case '8': S = "AB(-)";
+				Sangre=false;
+				break;
+		}
+	}
+	return S;
+}
+
+bool Busquedaparasesion(string &Usuario, string &Password){
+	bool R = false;
+	string AuxU,AuxP;
+	FILE *Archivo;
+	Archivo = fopen(datausuario,"rb");
+
+	fread(&rec,sizeof(rec),1,Archivo);
+		MIENTRAS(!feof(Archivo)){
+			AuxU = rec.Nickname; AuxP = rec.Password;
+			SI((Usuario.compare(AuxU)==0)&&(Password.compare(AuxP)==0)){
+				R=true;
+			}
+		fread(&rec,sizeof(rec),1,Archivo);
+		}
+ return R;
+}
+
+char SeleccionMostrarU(){
+	char op;
+	system("cls");
+	cout<<endl<<endl<<endl<<endl;
+	cout<<"\t\t\t\t\t\t\t|----------------MENU----------------|"<<endl;
+	cout<<"\t\t\t\t\t\t\t| 1: Ver Datos Personales.           |"<<endl;
+	cout<<"\t\t\t\t\t\t\t| 2: Modificar Datos Personales.     |"<<endl;
+	cout<<"\t\t\t\t\t\t\t| 3: Historico Cronologico (Dr).     |"<<endl;
+	cout<<"\t\t\t\t\t\t\t| X: Salir.                          |"<<endl;
+	cout<<"\t\t\t\t\t\t\t|------------------------------------|"<<endl;
+	cout<<"\t\t\t\t\t\t\t * Ingrese Opcion: ";
+	op = toupper(_getche());
+	return op;
+}
+void MostrarUsuario(string &Usuario){
+	bool m=true;
+	MIENTRAS (m == true){
+		char op = SeleccionMostrarU();
+		switch(op){
+		case '1':{	system("cls");
+					MostrarDatosPaciente(Usuario);
+			break;
+			}
+		case '2':{	system("cls");
+					ModificarDatosPaciente(Usuario);
+			break;   
+			}
+		case '3':{	system("cls");
+			string Registro;
+			cout << endl << "Ingrese su CI: ";
+			REPETIR{
+				getline(cin, Registro);
+			} MIENTRAS (Registro.size() == 0);
+			ListadoDiagnosticoXdoctores(Registro);
+			break;
+			}
+		case 'X':{	system("cls");
+					m = false;
+			break;
+			}
+		}
+	}
+}
+void SesionUsuario(){
+	int i=0;
+	string Usuario,Password;
+	FILE *Archivo;
+	Archivo = fopen (datausuario,"rb");
+	SI (Archivo == NULL){
+		cout <<endl<<endl<<endl<<endl<<endl<<endl; 
+		cout << endl << "\t\t\t\t\t\t <<ARCHIVO INEXISTENTE, PRESIONE UNA TECLA PARA SER REDIRECCIONADO.>>";
+		_getch();
+		return;
+		system("cls");
+	} SINO { cout << endl << "\t >>> LOGIN DE USUARIO:  ";
+		REPETIR{
+			cin>>Usuario;
+			fflush(stdin);
+		}MIENTRAS(Usuario.size()==0);
+
+		cout << endl << "\t >>> PASSWORD:  ";
+		REPETIR{
+			cin>>Password;
+			fflush(stdin);
+		}MIENTRAS(Password.size()==0);
+
+		SI (Busquedaparasesion(Usuario,Password) == true){
+			MostrarUsuario(Usuario);
+		} SINO {
+			cout << endl << "\t\t\t\t\t\t\t ERROR, VUELVA A INTENTAR.";
+			cout << endl << "\t\t\t\t\t\t\t REDIRECCIONANDO.";
+			MIENTRAS(i<=3){
+			Sleep(1000);
+			cout<<".";
+			i++;
+			}
+		}		
+	}
+}
+void MostrarDatosPaciente(string &Usuario){
+	string Aux;
+	FILE *Archivo;	
+	Archivo = fopen (datausuario,"rb");
+
+		fread(&rec,sizeof(rec),1,Archivo);
+		MIENTRAS (!feof(Archivo)){
+			Aux = rec.Nickname;
+		SI ((Usuario.compare(Aux))==0){
+			fflush(stdin);
+			cout << endl << "\t>> Registro: "<< rec.Registro;
+			cout << endl << "\t>> Nombre Completo: "<< rec.Nombre; cout<<" "<<rec.Apellido;
+			cout << endl << "\t>> Fecha de Nacimiento: "<<rec.Born;
+			cout << endl << "\t>> Edad: "<< rec.Edad<<" anhos."; 
+			cout << endl << "\t>> CI: "<< rec.CI<<" "<<rec.EXP;
+			cout << endl << "\t>> Direccion: "<< rec.Direccion;
+			cout << endl << "\t>> Celular: "<< rec.Celular;
+			cout << endl << "\t>> Telefono: "<< rec.Telefono;
+			cout << endl << "\t>> Correo Electronico: "<<rec.Mail;
+			cout << endl << "\t>> Ocupacion: "<<rec.Ocupacion;
+			cout << endl << "\t>> Tipo de Sangre: "<<rec.Sangre;
+			cout << endl << "\t>> Descripcion de Patologias: "<<rec.Patologia;
+			cout <<endl<<endl; 
+			cout << endl << "\t\t\t\t\t\t\t\t\t\t\t\t\t<< PRESIONE UNA TECLA PARA SALIR. >>";
+			_getch();
+			fclose(Archivo);
+			return;
+		}
+		fread(&rec,sizeof(rec),1,Archivo);
+	}
+}
+void ModificarDatosPaciente(string &Usuario){
+	char C; string Aux;
+	bool band = true;
+	FILE *Archivo;
+	Archivo = fopen(datausuario,"rb+");
+	int c=0;
+		
+	fread(&rec,sizeof(rec),1,Archivo);
+		MIENTRAS(!feof(Archivo)){
+			c++;
+			Aux = rec.Nickname;
+		SI ((Usuario.compare(Aux))==0){
+			cout <<endl<<" LISTO PARA MODIFICAR: ";
+			MeterDatosUsuario(band);
+			strcpy_s(rec.Nombre,reg.Nombre.c_str());
+			strcpy_s(rec.Apellido,reg.Apellido.c_str());
+			strcpy_s(rec.Genero,reg.Genero.c_str());
+			strcpy_s(rec.Direccion,reg.Direccion.c_str());
+			strcpy_s(rec.Telefono,reg.Telefono.c_str());
+			strcpy_s(rec.Nacionalidad,reg.Nacionalidad.c_str());
+			strcpy_s(rec.EXP,reg.EXP.c_str());
+			reg.Registro = reg.CI + reg.EXP;
+			strcpy_s(rec.Registro,reg.Registro.c_str());
+			strcpy_s(rec.Ocupacion,reg.Ocupacion.c_str());
+			strcpy_s(rec.Sangre,reg.Sangre.c_str());
+			strcpy_s(rec.Patologia,reg.Patologia.c_str());
+			SI(band!=true){
+				fclose(Archivo);
+				return;
+			}
+			REPETIR {cout << endl <<" >> Guardar Datos?";
+					 cout << endl <<"    [S] = SI"; 
+					 cout << endl <<"    [N] = NO";
+					 cout << endl <<" >> "; 
+					 C = toupper(_getche());
+			} MIENTRAS ( C!='S' && C!='N');
+			SI (C=='S'){
+					 fseek(Archivo,(c-1)*sizeof(rec),SEEK_SET);
+					 fwrite(&rec,sizeof(rec),1,Archivo);
+					 cout << endl <<"\t\t\t\t\t\t\t NUEVOS DATOS ALMACENANDOS.";
+					 Sleep(3000);
+			} SINO { system("cls");
+					 cout << endl <<"\t\t\t\t\t\t\t DATOS NO ALMACENADOS.";
+					 Sleep(800);
+					 cout << endl <<"\t\t\t\t\t\t\t  SALIENDO";
+					 Temporizador();
+				}
+			}
+		fread(&rec,sizeof(rec),1,Archivo);
+		}
+	fclose(Archivo);
+}
+void Temporizador(){
+		int i=0;
+		while(i<=2){
+		Sleep(800);
+		cout<<".";
+		i++;
+		}
+}
+void Fecha_de_Nacimiento(bool &band){
+	string Edad,AAAAs,MMs,DDs;
+	//int plus=Tonow-2017;
+	char AAAAc[5],MMc[3],DDc[3];
+	int AAAA,MM,DD;
+	int L=0;
+	cout << endl << endl << "\n\t\t Ingrese Fecha de Nacimiento: ";
+	REPETIR{ 
+		REPETIR{
+		cout << endl << "\n\t\t Anho: ";
+		getline(cin,AAAAs);
+		L=AAAAs.length();
+		}MIENTRAS(L>4);
+		fflush(stdin);
+		strcpy_s(AAAAc,AAAAs.c_str());
+		AAAA = atoi(AAAAc); 
+	}MIENTRAS((AAAA< since) || (AAAA>Tonow));
+	
+	REPETIR{
+		REPETIR{
+		cout <<"\n\t\t Mes: ";
+		getline(cin,MMs);
+		L=MMs.length();
+		}MIENTRAS(L>2);
+		fflush(stdin);
+		strcpy_s(MMc,MMs.c_str());
+		MM = atoi(MMc);
+	}MIENTRAS(MM<1||MM>12);
+	
+	SI(MM==1){
+			REPETIR{
+				REPETIR{ 
+					cout <<"\n\t\t Dia: ";
+					getline(cin,DDs);
+					L=DDs.length();
+				}MIENTRAS(L>2);
+				fflush(stdin);
+				strcpy_s(DDc,DDs.c_str());
+				DD = atoi(DDc);
+			}MIENTRAS(DD<1 || DD>31);
+	}
+	SI(MM==2){
+		SI(AAAA%4==0 && ( AAAA%100!=0 || AAAA%400 ==0)){
+			REPETIR{
+				REPETIR{ 
+					cout <<"\n\t\t Dia: ";
+					getline(cin,DDs);
+					L=DDs.length();
+				}MIENTRAS(L>2);
+				fflush(stdin);
+				strcpy_s(DDc,DDs.c_str());
+				DD = atoi(DDc);
+			}MIENTRAS(DD<1 || DD>29);
+		} SINO {
+			REPETIR{
+				REPETIR{ 
+					cout <<"\n\t\t Dia: ";
+					getline(cin,DDs);
+					L=DDs.length();
+				}MIENTRAS(L>2);
+				fflush(stdin);
+				strcpy_s(DDc,DDs.c_str());
+				DD = atoi(DDc);
+			}MIENTRAS(DD<1 || DD>28);
+		}
+	}
+	SI(MM==3){
+		REPETIR{
+			REPETIR{ 
+				cout <<"\n\t\t Dia: ";
+				getline(cin,DDs);
+				L=DDs.length();
+			}MIENTRAS(L>2);
+			fflush(stdin);
+			strcpy_s(DDc,DDs.c_str());
+			DD = atoi(DDc);
+		}MIENTRAS(DD<1 || DD>31);
+	}
+	SI(MM==4){
+		REPETIR{
+			REPETIR{ 
+				cout <<"\n\t\t Dia: ";
+				getline(cin,DDs);
+				L=DDs.length();
+			}MIENTRAS(L>2);
+			fflush(stdin);
+			strcpy_s(DDc,DDs.c_str());
+			DD = atoi(DDc);
+		}MIENTRAS(DD<1 || DD>30);
+	}
+	SI(MM==5){
+		REPETIR{
+			REPETIR{ 
+				cout <<"\n\t\t Dia: ";
+				getline(cin,DDs);
+				L=DDs.length();
+			}MIENTRAS(L>2);
+			fflush(stdin);
+			strcpy_s(DDc,DDs.c_str());
+			DD = atoi(DDc);
+		}MIENTRAS(DD<1 || DD>31);
+	}
+	SI(MM==6){
+		REPETIR{
+			REPETIR{ 
+				cout <<"\n\t\t Dia: ";
+				getline(cin,DDs);
+				L=DDs.length();
+			}MIENTRAS(L>2);
+			fflush(stdin);
+			strcpy_s(DDc,DDs.c_str());
+			DD = atoi(DDc);
+		}MIENTRAS(DD<1 || DD>30);
+	}
+	SI(MM==7){
+		REPETIR{
+			REPETIR{ 
+				cout <<"\n\t\t Dia: ";
+				getline(cin,DDs);
+				L=DDs.length();
+			}MIENTRAS(L>2);
+			fflush(stdin);
+			strcpy_s(DDc,DDs.c_str());
+			DD = atoi(DDc);
+		}MIENTRAS(DD<1 || DD>31);
+	}
+	SI(MM==8){
+		REPETIR{
+			REPETIR{ 
+				cout <<"\n\t\t Dia: ";
+				getline(cin,DDs);
+				L=DDs.length();
+			}MIENTRAS(L>2);
+			fflush(stdin);
+			strcpy_s(DDc,DDs.c_str());
+			DD = atoi(DDc);
+		}MIENTRAS(DD<1 || DD>31);
+	}
+	SI(MM==9){
+		REPETIR{
+			REPETIR{ 
+				cout <<"\n\t\t Dia: ";
+				getline(cin,DDs);
+				L=DDs.length();
+			}MIENTRAS(L>2);
+			fflush(stdin);
+			strcpy_s(DDc,DDs.c_str());
+			DD = atoi(DDc);
+		}MIENTRAS(DD<1 || DD>30);
+	}
+	SI(MM==10){
+		REPETIR{
+			REPETIR{ 
+				cout <<"\n\t\t Dia: ";
+				getline(cin,DDs);
+				L=DDs.length();
+			}MIENTRAS(L>2);
+			fflush(stdin);
+			strcpy_s(DDc,DDs.c_str());
+			DD = atoi(DDc);
+		}MIENTRAS(DD<1 || DD>31);
+	}
+	SI(MM==11){
+		REPETIR{
+			REPETIR{ 
+				cout <<"\n\t\t Dia: ";
+				getline(cin,DDs);
+				L=DDs.length();
+			}MIENTRAS(L>2);
+			fflush(stdin);
+			strcpy_s(DDc,DDs.c_str());
+			DD = atoi(DDc);
+		}MIENTRAS(DD<1 || DD>30);
+	}
+	SI(MM==12){
+		REPETIR{
+			REPETIR{ 
+				cout <<"\n\t\t Dia: ";
+				getline(cin,DDs);
+				L=DDs.length();
+			}MIENTRAS(L>2);
+			fflush(stdin);
+			strcpy_s(DDc,DDs.c_str());
+			DD = atoi(DDc);
+		}MIENTRAS(DD<1 || DD>31);
+	}
+
+if(MM<=9){
+	fflush(stdin);
+reg.Born = to_string((_ULonglong)DD)+"/0"+to_string((_ULonglong)MM)+"/"+to_string((_ULonglong)AAAA);
+}SINO{
+	fflush(stdin);
+reg.Born = to_string((_ULonglong)DD)+"/"+to_string((_ULonglong)MM)+"/"+to_string((_ULonglong)AAAA);
+}
+fflush(stdin);
+cout << endl <<"\n\t\t Fecha de nacimiento: "<<reg.Born;
+	SI(Tonow==AAAA){
+		SI(Mnow>MM){
+			SI((Mnow-MM)==1){
+				reg.Edad = to_string((_ULonglong)(Mnow-MM));
+				fflush(stdin);
+				cout<<endl<<"\n\t\t Edad: "<<reg.Edad<<" mes de nacido.";
+
+			} SINO {
+				reg.Edad = to_string((_ULonglong)(Mnow-MM));
+				fflush(stdin);
+				cout<<endl<<"\n\t\t Edad: "<<reg.Edad<<" meses de nacido.";
+			}
+		}
+		SI(Mnow==MM){
+			SI(Dnow>DD){
+				SI((Dnow-DD)==1){
+					reg.Edad = to_string((_ULonglong)(Dnow-DD));
+					fflush(stdin);
+				cout<<endl<<"\n\t\t Edad: "<<reg.Edad<<" dia de nacido.";
+				} SINO {
+				reg.Edad = to_string((_ULonglong)(Dnow-DD));
+				fflush(stdin);
+				cout<<endl<<"\n\t\t Edad: "<<reg.Edad<<" dias de nacido.";
+				}
+			} SINO {
+				SI((Dnow-DD)==0){
+					reg.Edad = " Recien Nacido.";
+					fflush(stdin);
+					cout<<"\n\t\t "<<reg.Edad;
+				} SINO {
+					system("cls");
+					cout<<endl<<"Error en fecha de Nacimiento";
+					Sleep(1000);
+					band = false;
+					return;
+				}
+			}
+		} SINO {
+			system("cls");
+			cout<<endl<<"Error en fecha de Nacimiento";
+			Sleep(1000);
+			band = false;
+			return;
+		}
+	} SINO {
+		SI ( MM>=Mnow && DD>Dnow){
+			reg.Edad = to_string((_ULonglong)(1+Tonow+-AAAA));
+			fflush(stdin);
+			cout <<"\n\t\t Edad: "<<reg.Edad<<" anhos";
+		} SINO {
+			SI (MM==Mnow && DD>Dnow){
+			reg.Edad = to_string((_ULonglong)(1+Tonow-AAAA));
+			fflush(stdin);
+			cout <<"\n\t\t Edad: "<<reg.Edad<<" anhos";
+			}  SINO {
+			reg.Edad = to_string((_ULonglong)(Tonow-AAAA));
+			fflush(stdin);
+			cout <<"\n\t\t Edad: "<<reg.Edad<<" anhos";
+			}
+		}
+	}
+	fflush(stdin);
+}
