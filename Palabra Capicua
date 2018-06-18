@@ -1,1 +1,50 @@
-// cout << Practica solo
+// Invertir una matriz.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string>
+
+using namespace std;
+bool verificar_Capicua(string frase); 
+void main()
+{ bool k;
+  string frase;
+   
+  cout<<" Ingrese la cadena: "<<endl;
+  getline (cin, frase);
+  k=verificar_Capicua(frase);
+  if( k==true)
+    {
+		cout<<" La frase es Capicua  "<<endl;
+    }
+  else
+    {
+		cout<<" La frase no es Capicua  "<<endl;
+    }
+  getch();
+
+}
+bool verificar_Capicua(string frase)
+{
+	string copia, inicio, final;
+	int tam, i;
+	bool k=false;
+	copia=frase;
+	tam= copia.length();
+    for(i=0;i<tam/2;i++)
+	   {
+		   inicio=copia.substr(i,1);
+		   final=copia.substr(tam-1-i,1);
+		   copia.replace(i,1, final);
+		   copia.replace(tam-1-i,1, inicio);
+
+	   }
+	if(copia==frase)
+	  {
+		  k=true;
+	  }
+return(k);
+}
+
