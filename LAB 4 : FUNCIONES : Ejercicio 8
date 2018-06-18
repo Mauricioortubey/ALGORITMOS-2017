@@ -1,1 +1,53 @@
-// cout << Practica solo
+// Ejercicio 8.cpp: define el punto de entrada de la aplicaciÃ³n de consola.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+
+using namespace std;
+
+void Leer(float A, float B, float C);
+void Solucion(float A, float B, float C, float *X1, float *X2);
+
+void main()
+{float A,B,C,X1,X2;
+ Leer(A,B,C);
+ Solucion(A,B,C,&X1,&X2);
+ getch();
+}
+
+void Leer(float A, float B, float C)
+{
+	do{ 
+		cout<<"\n Ingrese valor de A != 0 : ";
+		cin>> A;
+	}while (*A == 0);
+	
+	cout<<"\n Ingrese el valor de B: ";
+	cin>> B;
+	cout<<"\n Ingrese el valor de C: ";
+	cin>> C;
+}
+
+void Solucion(float A, float B, float C, float X1, float X2)
+{
+	if(pow(B,2) < (4* A * C))
+	{
+		cout<<"\ Solucion Imaginaria. ";
+	}
+	
+	if (pow(B,2) == (4* A * C))
+	{ 
+		*X1 = ( - B) / (2 * A);
+		cout<<"\n Solucion Unica. ";
+		cout<<"\n X1 = " << X1;
+	}
+	if(pow(B,2) > (4* A * C))
+	{
+		*X1 = ((-B) + sqrt(pow(B,2)-(4* A * C)))/(2 * A);
+		*X2 = ((-B) - sqrt(pow(B,2)-(4* A * C)))/(2 * A);
+		cout<<"\n X1 = "<<*X1<< "\n X2 = "<<*X2;
+	}
+}
