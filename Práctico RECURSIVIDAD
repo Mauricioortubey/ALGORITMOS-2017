@@ -1,0 +1,170 @@
+1. Mostrar la suma de los primeros elementos de la serie: S= -1!/1^2 + 2!/2^2 -3!/3^2 + 4!/4^2…
+
+int factorial(int n) {
+	if (n == 0) {
+		return 1;
+	}
+	else {
+		return n * factorial(n - 1);
+	}
+}
+
+float Serie(int n) {
+	if (n == 0) {
+		return 0;
+	}
+	else {
+		if (n % 2 == 0) {
+			return Serie(n - 1) + (factorial(n) / n * n);
+		}
+		else {
+			return Serie(n - 1) - (factorial(n) / n * n);
+		}
+	}
+}
+
+
+
+
+
+
+2. Verificar si los dígitos de un número están ordenados ascendentemente.
+
+bool Ascendente(int n) {
+	if (n < 10) {
+		return true;
+	}
+	else {
+		if (Ascendente(n / 10) == true) {
+			if (((n / 10) % 10) <= (n % 10)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+}
+
+3. Eliminar los dígitos pares de un número.
+
+int EliminarDigitosPares(int n) {
+	if (n < 10) {
+		if (n % 2 == 0) {
+			return 0;
+		}
+		else {
+			return n;
+		}
+	}
+	else {
+		int x = EliminarDigitosPares(n / 10);
+		if ((n % 10) % 2 == 0) {
+			return x;
+		}
+		else {
+			return x*10 + n % 10;
+		}
+	}
+}
+
+
+4. Verificar que los elementos de un vector forma un número capicúa.
+bool VerificarCapicuaVector(int V[], int j, int k) {
+	int n = k - j + 1;
+	if (n == 1) {
+		return true;
+	}
+	else {
+		if (n == 2) {
+			if (V[j] == V[k]) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			bool x = VerificarCapicuaVector(V, j + 1, k - 1);
+			if (x == true && V[j]==V[k]) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+}
+5. Rotar los elementos de un vector una casilla a la derecha (Como las manillas del reloj)
+
+void RotarReloj(int V[], int n) {
+	int aux;
+	if (n == 1) {
+		V[0] = V[0];
+	} else {
+		RotarReloj(V, n - 1);
+		aux = V[n - 1];
+		V[n - 1] = V[n - 2];
+		V[n - 2] = aux;
+	}
+}
+
+6. Invertir los elementos de un vector.
+void Cambiar(int V[], int a, int b) {
+	int aux;
+	aux = V[b];
+	V[b] = V[a];
+	V[a] = aux;
+}
+
+void Invertir(int V[], int i, int k) {
+	int n = k - i+1;
+	if (n == 0 || n == 1) {
+		cout << endl << "Imposible Invertir";
+	}
+	else {
+		if (n == 2) {
+			Cambiar(V, i, k);
+		}
+		else {
+			Invertir(V, i + 1, k - 1);
+			Cambiar(V, i, k);
+		}
+	}
+
+}
+
+7. Calcular el promedio de los elementos de un vector
+
+float Promedio(float V[], int n,float c) {
+	float prom;
+	if (n == 0) {
+		return 0;
+	} else {
+		prom = Promedio(V, n - 1, c);
+		return (V[n - 1] / c) + prom;
+	}
+}
+
+
+
+
+8. Generar los elementos de la serie Fibonacci en un vector.
+void Fibonacci(int V[], int n) {
+	if (n == 1) {
+		V[0] = 1;
+	} else {
+		if (n==2) {
+			V[0] = 1;
+			V[n-1] = V[0];
+		} else {
+			Fibonacci(V, n - 1);
+			V[n - 1] = V[n-2] + V[n-3];
+		}
+	}
+}
+
+
